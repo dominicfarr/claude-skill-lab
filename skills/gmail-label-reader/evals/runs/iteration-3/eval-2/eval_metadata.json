@@ -1,0 +1,35 @@
+{
+  "eval_id": 2,
+  "eval_name": "skilltest-fixture-count-and-subjects",
+  "fixture": "SKILLTEST",
+  "fixture_note": "Gmail label 'SKILLTEST' created for eval testing — 4 emails total, 2 unread. Do not add/remove emails from this label.",
+  "prompt": "Check my Gmail, show me my labels, then list the email titles in SKILLTEST",
+  "bug_regression": "label-id-vs-name — using label:Label_XXXXXXX in search silently returns empty; must use label:SKILLTEST (name)",
+  "assertions": [
+    {
+      "text": "Uses label name in search query (label:SKILLTEST), not label ID",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Returns exactly 4 email threads",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Includes subject 'Great session today / Next steps' in the output",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Includes subject 'The 5 pillars to modern marketing in 2026' in the output",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Each email entry shows sender, subject, and date — no body content",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}

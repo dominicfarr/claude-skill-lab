@@ -46,7 +46,9 @@ Then ask: **"Which label would you like to read?"** — the user can reply with 
 
 ## Step 3 — Fetch email titles
 
-Call `mcp__claude_ai_Gmail__search_threads` using the selected label (e.g. `label:Work/Startups`). Retrieve up to 50 threads, most recent first.
+Call `mcp__claude_ai_Gmail__search_threads` using the selected label **name** (e.g. `label:Work/Startups`). Retrieve up to 50 threads, most recent first.
+
+> **Important:** Use the label **name** from `list_labels`, not the label ID (`Label_XXXXXXXXXXXXXXX`). The search query `label:Label_123456` silently returns zero results — always use `label:"Label Name"` form.
 
 For each thread, get enough data to show:
 - **Sender** — name and email address

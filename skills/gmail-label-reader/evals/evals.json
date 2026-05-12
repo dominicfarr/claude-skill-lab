@@ -34,5 +34,53 @@
         }
       ]
     }
+  ],
+  "fixtures": {
+    "SKILLTEST": {
+      "description": "A Gmail label created specifically for eval testing. Contains exactly 4 emails, 2 unread.",
+      "thread_count": 4,
+      "known_subjects": [
+        "Dom, want to continue receiving job alerts for Principal Software Engineer in United States?",
+        "Dom, want to continue receiving job alerts for Principal Software Engineer in Canada?",
+        "The 5 pillars to modern marketing in 2026",
+        "Great session today / Next steps"
+      ]
+    }
+  },
+  "evals": [
+    {
+      "id": 2,
+      "prompt": "Check my Gmail, show me my labels, then list the email titles in SKILLTEST",
+      "fixture": "SKILLTEST",
+      "expected_output": "Lists all Gmail labels in a numbered list, then retrieves and displays exactly 4 email titles (sender, subject, date) from the SKILLTEST label — no body content.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "Uses label name in search query (label:SKILLTEST), not label ID",
+          "passed": null,
+          "evidence": null
+        },
+        {
+          "text": "Returns exactly 4 email threads",
+          "passed": null,
+          "evidence": null
+        },
+        {
+          "text": "Includes subject 'Great session today / Next steps' in the output",
+          "passed": null,
+          "evidence": null
+        },
+        {
+          "text": "Includes subject 'The 5 pillars to modern marketing in 2026' in the output",
+          "passed": null,
+          "evidence": null
+        },
+        {
+          "text": "Each email entry shows sender, subject, and date — no body content",
+          "passed": null,
+          "evidence": null
+        }
+      ]
+    }
   ]
 }

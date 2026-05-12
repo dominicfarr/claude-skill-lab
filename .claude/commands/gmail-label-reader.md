@@ -1,3 +1,16 @@
+---
+name: gmail-label-reader
+description: >
+  List Gmail labels and retrieve email titles from a selected label. Use this
+  skill whenever the user wants to browse, check, or read emails from a Gmail
+  label or folder — even if they say "check my Gmail", "show me my labels",
+  "what emails do I have tagged X", "list my Gmail folders", "pull up emails
+  from label Y", or any request involving retrieving or browsing Gmail messages
+  by label or tag.
+---
+
+# Gmail Label Reader
+
 List all Gmail labels, let the user pick one, then return the email titles (sender, subject, date) for that label — no body content.
 
 ---
@@ -33,7 +46,9 @@ Then ask: **"Which label would you like to read?"** — the user can reply with 
 
 ## Step 3 — Fetch email titles
 
-Call `mcp__claude_ai_Gmail__search_threads` using the selected label (e.g. `label:Work/Startups`). Retrieve up to 50 threads, most recent first.
+Call `mcp__claude_ai_Gmail__search_threads` using the selected label **name** (e.g. `label:Work/Startups`). Retrieve up to 50 threads, most recent first.
+
+> **Important:** Use the label **name** from `list_labels`, not the label ID (`Label_XXXXXXXXXXXXXXX`). The search query `label:Label_123456` silently returns zero results — always use `label:"Label Name"` form.
 
 For each thread, get enough data to show:
 - **Sender** — name and email address
@@ -71,6 +86,8 @@ If the label is empty, say so and offer to pick a different label.
 ---
 
 ## Notes on tool names
+
+The Gmail tools available after authentication are:
 
 | Tool | Purpose |
 |---|---|
