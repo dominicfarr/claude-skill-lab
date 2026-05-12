@@ -1,0 +1,32 @@
+{
+  "eval_id": 1,
+  "eval_name": "newsletters-label-summary",
+  "prompt": "Read my Gmail emails labelled 'Newsletters' and give me a summary",
+  "assertions": [
+    {
+      "text": "Initiates or checks Gmail authentication before attempting to read emails",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Retrieves emails specifically from the 'Newsletters' label",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Summary includes sender, subject, and date for each email",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Summary includes a brief description of each email body (not just metadata)",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Emails are presented in a readable, scannable format (not a raw dump)",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}

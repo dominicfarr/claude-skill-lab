@@ -1,0 +1,32 @@
+{
+  "eval_id": 1,
+  "eval_name": "list-labels-then-titles",
+  "prompt": "Check my Gmail, show me my labels, then list the email titles in Work/Startups",
+  "assertions": [
+    {
+      "text": "Presents a numbered list of Gmail labels before fetching any emails",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Fetches emails from the correct label (Work/Startups)",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Each email entry shows sender, subject, and date",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "No email body content or summaries are included in the output",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "text": "Results are presented as a clean numbered list",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "devbox",
+  "image": "devbox",
+  "remoteUser": "dev",
+  "forwardPorts": [3000, 8080, 5173],
+  "postCreateCommand": "[ -f ~/.ssh/id_ed25519 ] || (mkdir -p ~/.ssh && ssh-keygen -t ed25519 -C 'devbox' -N '' -f ~/.ssh/id_ed25519 && echo '' && echo 'Add this public key to GitHub → Settings → SSH keys:' && echo '' && cat ~/.ssh/id_ed25519.pub)"
+}
