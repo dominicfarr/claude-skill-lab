@@ -98,26 +98,6 @@ Each eval defines a prompt and a set of pass/fail assertions. Run outputs are ca
 
 ### Architecture
 
-```mermaid
-graph TD
-    User["User\n/gmail-label-reader"]
-    Claude["Claude Code\n(LLM agent)"]
-    Skill[".claude/commands/\ngmail-label-reader.md"]
-    MCP["Gmail MCP Connector\nclaude.ai/Gmail"]
-    GmailAPI["Gmail API\n(Google)"]
-
-    User -->|slash command| Claude
-    Claude -->|loads instructions| Skill
-    Skill -->|step 1: check auth| Claude
-    Claude -->|list_labels| MCP
-    Claude -->|search_threads| MCP
-    Claude -->|get_thread *optional*| MCP
-    MCP -->|OAuth 2.0| GmailAPI
-    GmailAPI -->|labels + thread data| MCP
-    MCP -->|structured response| Claude
-    Claude -->|numbered list output| User
-```
-
 ### Sequence
 
 ```mermaid
