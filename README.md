@@ -1,14 +1,41 @@
-# Gmail Label Reader
+# Claude Skills Monorepo
 
-A Claude Code skill that authenticates with Gmail, lists all labels, and retrieves email metadata (sender, subject, date) from a chosen label — without reading message bodies.
+A collection of custom Claude Code skills — each self-contained with its definition, slash command, and eval history.
+
+---
+
+## Skills
+
+| Skill | Slash Command | Description |
+|---|---|---|
+| [gmail-label-reader](skills/gmail-label-reader/) | `/gmail-label-reader` | List Gmail labels and browse email titles by label |
 
 ---
 
 ## Quick Start
 
-Type `/gmail-label-reader` in any Claude Code session inside this project.
+Type the slash command for any skill directly in Claude Code. If a skill requires external authentication (e.g. Gmail), Claude will prompt you on first use.
 
-If Gmail tools aren't available yet, Claude will prompt you to authenticate via `/mcp` → "claude.ai Gmail".
+---
+
+## Adding a New Skill
+
+```
+skills/
+└── your-skill-name/
+    ├── SKILL.md                  # Skill definition (source of truth)
+    └── evals/
+        ├── evals.json            # Test cases and assertions
+        └── runs/                 # Captured eval outputs (auto-generated)
+
+.claude/commands/
+└── your-skill-name.md            # Copy of skill instructions — enables /your-skill-name
+```
+
+1. Write `skills/your-skill-name/SKILL.md`
+2. Copy the instructions into `.claude/commands/your-skill-name.md`
+3. Add test cases to `skills/your-skill-name/evals/evals.json`
+4. Add a row to the Skills table above
 
 ---
 
@@ -17,50 +44,59 @@ If Gmail tools aren't available yet, Claude will prompt you to authenticate via 
 ```
 .
 ├── .claude/
-│   └── commands/
-│       └── gmail-label-reader.md      # Slash command — invoked via /gmail-label-reader
+│   └── commands/                          # Slash commands (one per skill)
+│       └── gmail-label-reader.md
 │
 ├── skills/
 │   └── gmail-label-reader/
-│       ├── SKILL.md                   # Canonical skill definition (source of truth)
+│       ├── SKILL.md                       # Canonical skill definition
 │       └── evals/
-│           └── evals.json             # Test cases and pass/fail assertions for the skill
-│
-├── gmail-label-reader-workspace/      # Eval run history (snapshot baselines)
-│   ├── iteration-1/
-│   │   └── eval-1/
-│   │       ├── eval_metadata.json     # Assertions for this iteration's test
-│   │       └── with_skill/
-│   │           └── outputs/
-│   │               └── summary.md    # Captured output from skill-guided run
-│   └── iteration-2/
-│       └── eval-1/
-│           ├── eval_metadata.json     # Refined assertions after skill refactor
-│           ├── with_skill/
-│           │   └── outputs/
-│           │       └── output.md     # Output: skill produces numbered list format
-│           └── without_skill/
-│               └── outputs/
-│                   └── output.md     # Baseline: raw table with label IDs exposed
+│           ├── evals.json                 # Test prompts and pass/fail assertions
+│           └── runs/                      # Eval run history (snapshot baselines)
+│               ├── iteration-1/
+│               │   └── eval-1/
+│               │       ├── eval_metadata.json
+│               │       └── with_skill/outputs/summary.md
+│               └── iteration-2/
+│                   └── eval-1/
+│                       ├── eval_metadata.json
+│                       ├── with_skill/outputs/output.md
+│                       └── without_skill/outputs/output.md
 │
 ├── .devcontainer/
-│   └── devcontainer.json             # Dev container configuration
+│   └── devcontainer.json                  # Dev container configuration
 ├── .gitignore
 └── README.md
 ```
 
-### Key distinction: `SKILL.md` vs `.claude/commands/gmail-label-reader.md`
+### `SKILL.md` vs `.claude/commands/<name>.md`
 
 | File | Role |
 |---|---|
-| `skills/gmail-label-reader/SKILL.md` | Canonical source. Edit this to change skill behaviour. |
-| `.claude/commands/gmail-label-reader.md` | Claude Code slash command. Mirrors the skill content so `/gmail-label-reader` triggers it. |
-
-When you update the skill, copy the relevant content into the commands file to keep them in sync.
+| `skills/<name>/SKILL.md` | Canonical source. Edit here to change behaviour. |
+| `.claude/commands/<name>.md` | Mirrors the skill so the slash command works. Keep in sync when SKILL.md changes. |
 
 ---
 
-## Architecture
+## Eval Framework
+
+Each skill has a structured eval that compares **with-skill** runs (Claude following `SKILL.md`) against **without-skill** baseline runs (Claude answering the same prompt unaided).
+
+```
+evals/
+├── evals.json          # Test prompts + assertions (authored)
+└── runs/               # Captured outputs per iteration (generated)
+    ├── iteration-1/
+    └── iteration-2/
+```
+
+Each eval defines a prompt and a set of pass/fail assertions. Run outputs are captured as markdown snapshots under `runs/` and committed as baselines for regression comparison.
+
+---
+
+## gmail-label-reader
+
+### Architecture
 
 ```mermaid
 graph TD
@@ -82,9 +118,7 @@ graph TD
     Claude -->|numbered list output| User
 ```
 
----
-
-## Sequence
+### Sequence
 
 ```mermaid
 sequenceDiagram
@@ -132,29 +166,6 @@ sequenceDiagram
     Claude-->>User: numbered list\n(sender · subject · date)\nno body content
 ```
 
----
+### Privacy
 
-## Eval Framework
-
-Evals compare **with-skill** runs (Claude following `SKILL.md`) against **without-skill** baseline runs (Claude answering the same prompt unaided).
-
-Each eval defines a prompt and a set of pass/fail assertions:
-
-```
-prompt: "Check my Gmail, show me my labels, then list the email titles in Work/Startups"
-
-assertions:
-  1. Presents a numbered list of Gmail labels before fetching any emails
-  2. Fetches emails from the correct label (Work/Startups)
-  3. Each email entry shows sender, subject, and date
-  4. No email body content or summaries are included in the output
-  5. Results are presented as a clean numbered list
-```
-
-Run history is stored in `gmail-label-reader-workspace/` by iteration. Each iteration captures both the `with_skill` and `without_skill` outputs as snapshot baselines.
-
----
-
-## Privacy
-
-This skill reads **headers only** (sender, subject, date). Message bodies are never fetched or processed. Authentication is handled by the claude.ai Gmail MCP connector via OAuth 2.0 — no credentials are stored in this repository.
+Reads **headers only** (sender, subject, date). Message bodies are never fetched or processed. Authentication is via OAuth 2.0 through the claude.ai Gmail MCP connector — no credentials are stored in this repository.
