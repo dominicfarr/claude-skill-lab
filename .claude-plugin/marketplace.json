@@ -1,0 +1,15 @@
+{
+  "name": "skill-lab",
+  "description": "Dom's Claude Code skill lab, packaged as a single plugin.",
+  "owner": {
+    "name": "Dominic Farr",
+    "email": "dominicfarr@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "skill-lab",
+      "source": "./",
+      "description": "Dom's custom Claude Code skills, each with its own evals."
+    }
+  ]
+}
