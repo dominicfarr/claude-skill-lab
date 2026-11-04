@@ -70,7 +70,7 @@ make_fixture() {
       git -C "$project" init -q -b main
       printf '# Notes\n\nExisting work.\n' >"$project/notes.md"
       git -C "$project" add notes.md
-      git -C "$project" -c commit.gpgsign=false commit -q --no-verify -m "docs: add notes"
+      git -C "$project" -c commit.gpgsign=false commit -q -m "docs: add notes"
       git -C "$project" rev-parse HEAD >"$case_dir/fixture/original-head"
       ;;
   esac
