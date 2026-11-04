@@ -3,10 +3,12 @@
 # git state, installed hooks and GitHub. Read-only: changes nothing in the
 # folder and makes only GET calls to GitHub.
 #
-# Usage: evals/check.sh <kind> <project-dir>
+# Usage: evals/check.sh <kind> <project-dir> [<reply-file>]
 #   kind: create | idea | refuse-history | refuse-name (see evals.json)
 #   Fixture originals (IDEA.md, original-head) are read from
 #   <project-dir>/../fixture/, which the runner writes before the run.
+#   reply-file: the run's final reply (the runner's result.md), which
+#   refuse-history checks for check-safe.sh's refusal.
 #
 # Prints one "PASS <assertion-id>: evidence" or "FAIL <assertion-id>: evidence"
 # line per assertion. Exits non-zero if any assertion fails.
@@ -14,6 +16,7 @@ set -euo pipefail
 
 kind="$1"
 dir="$(cd "$2" && pwd)"
+reply="${3:-}"
 fixture="$(dirname "$dir")/fixture"
 name="$(basename "$dir")"
 
@@ -177,6 +180,21 @@ check_history_untouched() {
   fi
 }
 
+# The skill's own refusal: check-safe.sh exits 1 with this exact message for
+# a folder with history, and the skill reports it. A run that merely stops on
+# its own judgement doesn't produce it.
+check_refusal_reported() {
+  local id="refusal-reported"
+  local message="/$name already has git history; new-project only starts fresh repos"
+  if [ -z "$reply" ] || [ ! -f "$reply" ]; then
+    fail "$id" "no reply file given"
+  elif grep -F -- "$message" "$reply" | grep -qF "REFUSED:"; then
+    pass "$id" "reply quotes check-safe.sh: REFUSED: …$message"
+  else
+    fail "$id" "reply lacks check-safe.sh's refusal (REFUSED: …$message)"
+  fi
+}
+
 check_nothing_written() {
   local id="nothing-written" problems="" f hooks_dir
   for f in "${standard_files[@]}" CLAUDE.md docs/agents; do
@@ -207,7 +225,7 @@ case "$kind" in
   idea)
     check_standard_files; check_claude_md; check_hooks; check_first_commit; check_no_github_repo; check_idea_kept ;;
   refuse-history)
-    check_history_untouched; check_nothing_written; check_no_github_repo ;;
+    check_refusal_reported; check_history_untouched; check_nothing_written; check_no_github_repo ;;
   refuse-name)
     check_folder_untouched ;;
   *)

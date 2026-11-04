@@ -99,7 +99,7 @@ run_case() {
       claude "${args[@]}" -- "$p" >"$out/result.md" 2>&1 || true
   )
   cp "$case_dir/gh.log" "$out/gh.log" 2>/dev/null || : >"$out/gh.log"
-  "$evals_dir/check.sh" "$kind" "$project" >"$out/check.txt" 2>&1 || true
+  "$evals_dir/check.sh" "$kind" "$project" "$out/result.md" >"$out/check.txt" 2>&1 || true
   jq -Rn --arg project "$project" --arg variant "$variant" '
     {variant: $variant, project: $project,
      assertions: [inputs | select(test("^(PASS|FAIL) "))

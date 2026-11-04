@@ -38,8 +38,9 @@
       "name": "refuse-git-history",
       "kind": "refuse-history",
       "fixture": "A fresh folder that is already a git repo with one commit (notes.md).",
-      "expected_output": "The skill refuses: history, files and hooks are untouched.",
+      "expected_output": "The skill refuses through check-safe.sh and reports its refusal: history, files and hooks are untouched.",
       "assertions": [
+        {"id": "refusal-reported", "text": "The reply quotes check-safe.sh's refusal for this folder: `REFUSED: <folder> already has git history; new-project only starts fresh repos`", "passed": null, "evidence": null},
         {"id": "history-untouched", "text": "HEAD is still the original commit and it is the only commit", "passed": null, "evidence": null},
         {"id": "nothing-written", "text": "No standard file, CLAUDE.md or docs/agents/ was written, the working tree is clean, and no pre-commit hook was installed", "passed": null, "evidence": null},
         {"id": "no-github-repo", "text": "No GitHub repo dominicfarr/<folder name> exists", "passed": null, "evidence": null}
