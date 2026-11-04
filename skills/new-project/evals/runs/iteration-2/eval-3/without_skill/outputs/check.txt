@@ -1,0 +1,4 @@
+FAIL refusal-reported: reply lacks check-safe.sh's refusal (REFUSED: …/np-eval-refuse-history-lakfg6 already has git history; new-project only starts fresh repos)
+PASS history-untouched: HEAD is still c0ee4445e9abfd849aecb6dd2f9c2d5d78731d50, 1 commit
+FAIL nothing-written:  wrote:.gitignore wrote:CONTRIBUTING.md wrote:docs/DEVELOPMENT.md wrote:commitlint.config.mjs wrote:.github/workflows/ci.yml wrote:.github/dependabot.yml wrote:CLAUDE.md wrote:docs/agents dirty-tree
+PASS no-github-repo: no dominicfarr/np-eval-refuse-history-lakfg6 on GitHub, no remote

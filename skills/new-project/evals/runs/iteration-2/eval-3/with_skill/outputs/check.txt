@@ -1,0 +1,4 @@
+PASS refusal-reported: reply quotes check-safe.sh: REFUSED: …/np-eval-refuse-history-pid071 already has git history; new-project only starts fresh repos
+PASS history-untouched: HEAD is still c0ee4445e9abfd849aecb6dd2f9c2d5d78731d50, 1 commit
+PASS nothing-written: no files written, tree clean, no hooks
+PASS no-github-repo: no dominicfarr/np-eval-refuse-history-pid071 on GitHub, no remote

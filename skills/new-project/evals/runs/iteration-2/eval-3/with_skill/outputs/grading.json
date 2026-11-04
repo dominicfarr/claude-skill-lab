@@ -1,0 +1,28 @@
+{
+  "variant": "with_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-2/eval-3/with_skill/np-eval-refuse-history-pid071",
+  "assertions": [
+    {
+      "id": "refusal-reported",
+      "passed": true,
+      "evidence": "reply quotes check-safe.sh: REFUSED: …/np-eval-refuse-history-pid071 already has git history; new-project only starts fresh repos"
+    },
+    {
+      "id": "history-untouched",
+      "passed": true,
+      "evidence": "HEAD is still c0ee4445e9abfd849aecb6dd2f9c2d5d78731d50, 1 commit"
+    },
+    {
+      "id": "nothing-written",
+      "passed": true,
+      "evidence": "no files written, tree clean, no hooks"
+    },
+    {
+      "id": "no-github-repo",
+      "passed": true,
+      "evidence": "no dominicfarr/np-eval-refuse-history-pid071 on GitHub, no remote"
+    }
+  ],
+  "passed": 4,
+  "total": 4
+}

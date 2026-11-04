@@ -1,0 +1,34 @@
+{
+  "eval_id": 3,
+  "eval_name": "refuse-git-history",
+  "kind": "refuse-history",
+  "fixture": "A fresh folder that is already a git repo with one commit (notes.md).",
+  "prompt": "Turn this folder into a new project using Dom's standards from the dominicfarr/dev-standards GitHub repo, up to and including a first commit that passes the installed hooks. Do not create a GitHub repo or labels.",
+  "with_prompt": "/skill-lab:new-project --local-only",
+  "assertions": [
+    {
+      "id": "refusal-reported",
+      "text": "The reply quotes check-safe.sh's refusal for this folder: `REFUSED: <folder> already has git history; new-project only starts fresh repos`",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "history-untouched",
+      "text": "HEAD is still the original commit and it is the only commit",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "nothing-written",
+      "text": "No standard file, CLAUDE.md or docs/agents/ was written, the working tree is clean, and no pre-commit hook was installed",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "no-github-repo",
+      "text": "No GitHub repo dominicfarr/<folder name> exists",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}
