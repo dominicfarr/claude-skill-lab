@@ -9,6 +9,7 @@ A collection of custom Claude Code skills — each self-contained with its defin
 | Skill | Slash Command | Description |
 |---|---|---|
 | [gmail-label-reader](skills/gmail-label-reader/) | `/skill-lab:gmail-label-reader` | List Gmail labels and browse email titles by label |
+| [new-project](skills/new-project/) | `/skill-lab:new-project` | Turn an empty folder into a project with Dom's standards, up to a gated first commit |
 
 ---
 
@@ -71,6 +72,10 @@ New skill directories are picked up by the plugin automatically; no manifest cha
 ```
 .
 ├── skills/
+│   ├── new-project/
+│   │   ├── SKILL.md
+│   │   ├── scripts/                       # check-safe.sh, copy-standards.sh
+│   │   └── evals/                         # evals.json, run-evals.sh, check.sh, gh-guard/, runs/
 │   └── gmail-label-reader/
 │       ├── SKILL.md                       # Canonical skill definition
 │       └── evals/
@@ -172,3 +177,26 @@ sequenceDiagram
 ### Privacy
 
 Reads **headers only** (sender, subject, date). Message bodies are never fetched or processed. Authentication is via OAuth 2.0 through the claude.ai Gmail MCP connector — no credentials are stored in this repository.
+
+---
+
+## new-project
+
+Run `/skill-lab:new-project [repo-name]` in an empty folder, or one holding only an idea note. It refuses a folder with git history (or inside another repo) and a repo name `dominicfarr` already has, then: `git init` on `main`, copies the standard files and base gates from `dominicfarr/dev-standards`, sets up the Matt Pocock skills (GitHub tracker, default triage labels, single-context), writes `CLAUDE.md` with the "Read first" line and a README with *Development setup*, installs the `pre-commit` and `commit-msg` hooks, and makes a first commit that passes them. Creating the GitHub repo and labels is a stub until dominicfarr/dev-standards#10.
+
+Needs `gh` (logged in), `uv`, pre-commit and the `mattpocock-skills` plugin.
+
+### What it copies
+
+From the standards repo's default branch, through `gh api`, all read at one commit: `.gitignore`, `CONTRIBUTING.md`, `docs/DEVELOPMENT.md`, `.pre-commit-config.yaml`, `commitlint.config.mjs`, `.github/workflows/ci.yml` and `.github/dependabot.yml`. Hook fragments and Sonar templates come later, through the stack and Sonar tickets. The list lives in `skills/new-project/scripts/copy-standards.sh`.
+
+Each copy's first line is a **source header** naming that commit, in the file's own comment syntax: `# from dominicfarr/dev-standards@<sha>` (YAML, `.gitignore`), `<!-- … -->` (Markdown), `// …` (`.mjs`). Every file in the set can carry a comment on line 1. The script refuses a file type with no comment syntax (such as JSON) instead of copying it without a header, so adding one means choosing its fallback first.
+
+### Evals
+
+```sh
+skills/new-project/evals/run-evals.sh <iteration>               # every eval, with and without the skill
+skills/new-project/evals/run-evals.sh <iteration> with_skill 1  # one eval, one variant
+```
+
+Each eval runs `claude -p` in a fresh scratch folder under `$TMPDIR`, with a scoped tool allowlist, and `check.sh` grades the folder from outside. No eval can create a GitHub repo: GitHub writes and `git push` are denied, a `gh` guard first on PATH refuses them too, the skill runs with `--local-only`, and `check.sh` confirms `dominicfarr/<folder>` doesn't exist afterwards. Results land in `evals/runs/iteration-<n>/`.
