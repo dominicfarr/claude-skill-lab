@@ -13,7 +13,6 @@ Turns the current folder (empty, or holding only notes such as an idea file) int
 
 ```sh
 OWNER=dominicfarr                     # GitHub owner of new projects
-SONAR_ORG=dominicfarr                 # SonarQube Cloud organization (used by later Sonar tickets)
 STANDARDS=dominicfarr/dev-standards   # the standards repo, read from its default branch
 ```
 
