@@ -8,13 +8,41 @@ A collection of custom Claude Code skills — each self-contained with its defin
 
 | Skill | Slash Command | Description |
 |---|---|---|
-| [gmail-label-reader](skills/gmail-label-reader/) | `/gmail-label-reader` | List Gmail labels and browse email titles by label |
+| [gmail-label-reader](skills/gmail-label-reader/) | `/skill-lab:gmail-label-reader` | List Gmail labels and browse email titles by label |
 
 ---
 
-## Quick Start
+## Install
 
-Type the slash command for any skill directly in Claude Code. If a skill requires external authentication (e.g. Gmail), Claude will prompt you on first use.
+The repo is a Claude Code plugin marketplace (`skill-lab`) that lists one plugin (`skill-lab`) containing every skill under `skills/`.
+
+From a shell:
+
+```sh
+claude plugin marketplace add dominicfarr/claude-skill-lab
+claude plugin install skill-lab@skill-lab
+```
+
+Or inside a Claude Code session:
+
+```
+/plugin marketplace add dominicfarr/claude-skill-lab
+/plugin install skill-lab@skill-lab
+```
+
+On Claude Code 2.1.275 or later you can do it in one step (or from a shell: `claude plugin install skill-lab --marketplace dominicfarr/claude-skill-lab`):
+
+```
+/plugin install skill-lab --marketplace dominicfarr/claude-skill-lab
+```
+
+Run `/reload-plugins` (or start a new session) and the skills are available. Claude picks them up from what you ask, or you can invoke one directly, e.g. `/skill-lab:gmail-label-reader`. If a skill requires external authentication (e.g. Gmail), Claude will prompt you on first use.
+
+To pick up new skills later: `claude plugin marketplace update skill-lab`, then `claude plugin update skill-lab@skill-lab`.
+
+### Check the install
+
+`scripts/test-plugin-install.sh` validates the manifests, adds the marketplace in a throwaway config dir, installs the plugin, and confirms every skill in `skills/` loaded. Pass `dominicfarr/claude-skill-lab` to test the published repo instead of your working copy.
 
 ---
 
@@ -32,6 +60,9 @@ skills/
 1. Write `skills/your-skill-name/SKILL.md`
 2. Add test cases to `skills/your-skill-name/evals/evals.json`
 3. Add a row to the Skills table above
+4. Run `scripts/test-plugin-install.sh` to confirm the plugin loads it
+
+New skill directories are picked up by the plugin automatically; no manifest change is needed.
 
 ---
 
@@ -54,6 +85,13 @@ skills/
 │                       ├── eval_metadata.json
 │                       ├── with_skill/outputs/output.md
 │                       └── without_skill/outputs/output.md
+│
+├── .claude-plugin/
+│   ├── plugin.json                        # Plugin manifest (skill-lab)
+│   └── marketplace.json                   # Marketplace manifest listing the plugin
+│
+├── scripts/
+│   └── test-plugin-install.sh             # Install check
 │
 ├── .devcontainer/
 │   └── devcontainer.json                  # Dev container configuration
@@ -93,9 +131,9 @@ sequenceDiagram
     participant MCP as Gmail MCP
     participant Gmail as Gmail API
 
-    User->>Claude: /gmail-label-reader
+    User->>Claude: /skill-lab:gmail-label-reader
 
-    Claude->>Skill: load command instructions
+    Claude->>Skill: load skill instructions
     Skill-->>Claude: 4-step workflow
 
     Note over Claude: Step 1 — Auth check
