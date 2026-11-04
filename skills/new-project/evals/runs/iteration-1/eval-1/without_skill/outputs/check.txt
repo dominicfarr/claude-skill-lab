@@ -1,0 +1,5 @@
+FAIL standard-files:  missing:.pre-commit-config.yaml
+PASS claude-md: Read first on line 1, ## Agent skills on line 3, docs/agents/* present
+FAIL hooks:  not-installed:pre-commit not-installed:commit-msg
+FAIL first-commit: no commits
+PASS no-github-repo: no dominicfarr/np-eval-create-beg58s on GitHub, no remote

@@ -1,0 +1,19 @@
+gh repo view dominicfarr/dev-standards --json name,description
+gh api repos/dominicfarr/dev-standards/git/trees/HEAD?recursive=1 --jq .tree[] | select(.type=="blob") | .path
+gh api repos/dominicfarr/dev-standards/contents/README.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/CLAUDE.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/adr/0001-projects-copy-standards.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/PLAN.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/commits/HEAD --jq .sha
+gh api repos/dominicfarr/dev-standards/contents/.gitignore -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.pre-commit-config.yaml -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/commitlint.config.mjs -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.github/workflows/ci.yml -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.github/dependabot.yml -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/CONTRIBUTING.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/DEVELOPMENT.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/agents/issue-tracker.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/agents/triage-labels.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/agents/domain.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/templates/sonar.yml -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/hooks/js-ts.yaml -H Accept: application/vnd.github.raw

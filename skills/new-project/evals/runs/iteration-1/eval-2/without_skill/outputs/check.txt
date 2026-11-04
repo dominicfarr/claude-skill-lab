@@ -1,0 +1,6 @@
+FAIL standard-files:  differs-from-upstream:CONTRIBUTING.md differs-from-upstream:docs/DEVELOPMENT.md missing:.pre-commit-config.yaml
+PASS claude-md: Read first on line 1, ## Agent skills on line 3, docs/agents/* present
+FAIL hooks:  not-installed:pre-commit not-installed:commit-msg
+FAIL first-commit: no commits
+PASS no-github-repo: no dominicfarr/np-eval-idea-h9lkxw on GitHub, no remote
+FAIL idea-kept:  IDEA.md-not-committed

@@ -1,0 +1,1 @@
+PASS folder-untouched: folder still empty

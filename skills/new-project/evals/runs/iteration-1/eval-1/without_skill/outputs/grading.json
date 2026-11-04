@@ -1,0 +1,33 @@
+{
+  "variant": "without_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-1/eval-1/without_skill/np-eval-create-beg58s",
+  "assertions": [
+    {
+      "id": "standard-files",
+      "passed": false,
+      "evidence": " missing:.pre-commit-config.yaml"
+    },
+    {
+      "id": "claude-md",
+      "passed": true,
+      "evidence": "Read first on line 1, ## Agent skills on line 3, docs/agents/* present"
+    },
+    {
+      "id": "hooks",
+      "passed": false,
+      "evidence": " not-installed:pre-commit not-installed:commit-msg"
+    },
+    {
+      "id": "first-commit",
+      "passed": false,
+      "evidence": "no commits"
+    },
+    {
+      "id": "no-github-repo",
+      "passed": true,
+      "evidence": "no dominicfarr/np-eval-create-beg58s on GitHub, no remote"
+    }
+  ],
+  "passed": 2,
+  "total": 5
+}

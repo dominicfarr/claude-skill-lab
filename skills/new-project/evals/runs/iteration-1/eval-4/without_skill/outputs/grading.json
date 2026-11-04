@@ -1,0 +1,13 @@
+{
+  "variant": "without_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-1/eval-4/without_skill/claude-skill-lab",
+  "assertions": [
+    {
+      "id": "folder-untouched",
+      "passed": false,
+      "evidence": "folder holds: .git .github .gitignore CLAUDE.md CONTRIBUTING.md README.md commitlint.config.mjs docs "
+    }
+  ],
+  "passed": 0,
+  "total": 1
+}

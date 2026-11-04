@@ -1,0 +1,46 @@
+{
+  "eval_id": 2,
+  "eval_name": "idea-note-folder",
+  "kind": "idea",
+  "fixture": "A fresh folder holding only IDEA.md, a short idea note.",
+  "prompt": "Turn this folder into a new project using Dom's standards from the dominicfarr/dev-standards GitHub repo, up to and including a first commit that passes the installed hooks. Do not create a GitHub repo or labels.",
+  "with_prompt": "/skill-lab:new-project --local-only",
+  "assertions": [
+    {
+      "id": "standard-files",
+      "text": "As in eval 1",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "claude-md",
+      "text": "As in eval 1",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "hooks",
+      "text": "As in eval 1",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "first-commit",
+      "text": "As in eval 1",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "no-github-repo",
+      "text": "As in eval 1",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "idea-kept",
+      "text": "IDEA.md is byte-for-byte the original note and is in the first commit",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}

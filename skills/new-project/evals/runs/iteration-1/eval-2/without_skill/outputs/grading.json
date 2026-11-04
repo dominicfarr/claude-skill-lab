@@ -1,0 +1,38 @@
+{
+  "variant": "without_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-1/eval-2/without_skill/np-eval-idea-h9lkxw",
+  "assertions": [
+    {
+      "id": "standard-files",
+      "passed": false,
+      "evidence": " differs-from-upstream:CONTRIBUTING.md differs-from-upstream:docs/DEVELOPMENT.md missing:.pre-commit-config.yaml"
+    },
+    {
+      "id": "claude-md",
+      "passed": true,
+      "evidence": "Read first on line 1, ## Agent skills on line 3, docs/agents/* present"
+    },
+    {
+      "id": "hooks",
+      "passed": false,
+      "evidence": " not-installed:pre-commit not-installed:commit-msg"
+    },
+    {
+      "id": "first-commit",
+      "passed": false,
+      "evidence": "no commits"
+    },
+    {
+      "id": "no-github-repo",
+      "passed": true,
+      "evidence": "no dominicfarr/np-eval-idea-h9lkxw on GitHub, no remote"
+    },
+    {
+      "id": "idea-kept",
+      "passed": false,
+      "evidence": " IDEA.md-not-committed"
+    }
+  ],
+  "passed": 2,
+  "total": 6
+}

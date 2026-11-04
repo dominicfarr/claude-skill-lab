@@ -1,0 +1,13 @@
+{
+  "variant": "with_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-1/eval-4/with_skill/claude-skill-lab",
+  "assertions": [
+    {
+      "id": "folder-untouched",
+      "passed": true,
+      "evidence": "folder still empty"
+    }
+  ],
+  "passed": 1,
+  "total": 1
+}

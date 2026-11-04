@@ -1,0 +1,23 @@
+{
+  "variant": "with_skill",
+  "project": "/var/folders/jw/tj23tl8j3kjb5kcylkss3knc0000gp/T//new-project-evals/iteration-1/eval-3/with_skill/np-eval-refuse-history-mfn1x6",
+  "assertions": [
+    {
+      "id": "history-untouched",
+      "passed": true,
+      "evidence": "HEAD is still 324e644db1aeb29312c6a6feaab37bc662097672, 1 commit"
+    },
+    {
+      "id": "nothing-written",
+      "passed": true,
+      "evidence": "no files written, tree clean, no hooks"
+    },
+    {
+      "id": "no-github-repo",
+      "passed": true,
+      "evidence": "no dominicfarr/np-eval-refuse-history-mfn1x6 on GitHub, no remote"
+    }
+  ],
+  "passed": 3,
+  "total": 3
+}

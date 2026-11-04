@@ -1,0 +1,6 @@
+gh repo view dominicfarr/dev-standards
+gh api repos/dominicfarr/dev-standards/git/trees/HEAD?recursive=1 --jq .tree[] | select(.type=="blob") | .path
+gh api repos/dominicfarr/dev-standards/contents/PLAN.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/DEVELOPMENT.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/CLAUDE.md -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/claude-skill-lab/contents/skills/new-project/SKILL.md -H Accept: application/vnd.github.raw

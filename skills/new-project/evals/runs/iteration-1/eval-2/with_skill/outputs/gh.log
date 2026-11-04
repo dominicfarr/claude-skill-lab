@@ -1,0 +1,9 @@
+gh api repos/dominicfarr/np-eval-idea-zeor6x --jq .full_name
+gh api repos/dominicfarr/dev-standards/commits/HEAD --jq .sha
+gh api repos/dominicfarr/dev-standards/contents/.gitignore?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/CONTRIBUTING.md?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/docs/DEVELOPMENT.md?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.pre-commit-config.yaml?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/commitlint.config.mjs?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.github/workflows/ci.yml?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw
+gh api repos/dominicfarr/dev-standards/contents/.github/dependabot.yml?ref=ea7d5bd78d0dd869ba5335a2c2d38db2dcfaf044 -H Accept: application/vnd.github.raw

@@ -1,0 +1,40 @@
+{
+  "eval_id": 1,
+  "eval_name": "empty-folder",
+  "kind": "create",
+  "fixture": "An empty folder with a fresh name (np-eval-<random>) that no GitHub repo has.",
+  "prompt": "Turn this folder into a new project using Dom's standards from the dominicfarr/dev-standards GitHub repo, up to and including a first commit that passes the installed hooks. Do not create a GitHub repo or labels.",
+  "with_prompt": "/skill-lab:new-project --local-only",
+  "assertions": [
+    {
+      "id": "standard-files",
+      "text": "Every standard file is present, its first line is a source header in the file's comment syntax naming a real dev-standards commit, and the rest of the file matches dev-standards at that commit",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "claude-md",
+      "text": "CLAUDE.md has the Read first line above ## Agent skills, with GitHub issue tracker, triage labels and single-context domain docs sub-blocks, and docs/agents/ holds issue-tracker.md, triage-labels.md and domain.md",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "hooks",
+      "text": "pre-commit's hooks are installed for both the pre-commit and commit-msg stages",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "first-commit",
+      "text": "Branch main has exactly one commit, the working tree is clean, and the commit passes the hooks (pre-commit on its files and commitlint on its message)",
+      "passed": null,
+      "evidence": null
+    },
+    {
+      "id": "no-github-repo",
+      "text": "No GitHub repo dominicfarr/<folder name> exists and the repo has no remote",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}

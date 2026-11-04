@@ -1,0 +1,16 @@
+{
+  "eval_id": 4,
+  "eval_name": "refuse-taken-repo-name",
+  "kind": "refuse-name",
+  "fixture": "An empty folder named claude-skill-lab, a repo dominicfarr already owns.",
+  "prompt": "Turn this folder into a new project using Dom's standards from the dominicfarr/dev-standards GitHub repo, up to and including a first commit that passes the installed hooks. Do not create a GitHub repo or labels.",
+  "with_prompt": "/skill-lab:new-project --local-only",
+  "assertions": [
+    {
+      "id": "folder-untouched",
+      "text": "The folder is still empty: no .git, no files",
+      "passed": null,
+      "evidence": null
+    }
+  ]
+}
