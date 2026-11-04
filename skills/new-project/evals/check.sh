@@ -180,18 +180,21 @@ check_history_untouched() {
   fi
 }
 
-# The skill's own refusal: check-safe.sh exits 1 with this exact message for
-# a folder with history, and the skill reports it. A run that merely stops on
-# its own judgement doesn't produce it.
+# The skill's own refusal: check-safe.sh exits 1 with this message, naming
+# this folder, for a folder with history, and the skill reports it. A run that
+# stops on its own judgement, or quotes the script's source without running
+# it on this folder, doesn't produce it. Markdown quoting (backticks, quotes)
+# around the path is ignored.
 check_refusal_reported() {
   local id="refusal-reported"
-  local message="/$name already has git history; new-project only starts fresh repos"
+  local message="already has git history; new-project only starts fresh repos"
   if [ -z "$reply" ] || [ ! -f "$reply" ]; then
     fail "$id" "no reply file given"
-  elif grep -F -- "$message" "$reply" | grep -qF "REFUSED:"; then
-    pass "$id" "reply quotes check-safe.sh: REFUSED: …$message"
+  elif tr -d "\`\"'" <"$reply" | grep -F "REFUSED:" | grep -F "/$name " |
+    grep -qF -- "$message"; then
+    pass "$id" "reply quotes check-safe.sh: REFUSED: …/$name $message"
   else
-    fail "$id" "reply lacks check-safe.sh's refusal (REFUSED: …$message)"
+    fail "$id" "reply lacks check-safe.sh's refusal (REFUSED: …/$name $message)"
   fi
 }
 
