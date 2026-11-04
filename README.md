@@ -1,6 +1,6 @@
 # Claude Skills Monorepo
 
-A collection of custom Claude Code skills — each self-contained with its definition, slash command, and eval history.
+A collection of custom Claude Code skills — each self-contained with its definition and eval history.
 
 ---
 
@@ -27,15 +27,11 @@ skills/
     └── evals/
         ├── evals.json            # Test cases and assertions
         └── runs/                 # Captured eval outputs (auto-generated)
-
-.claude/commands/
-└── your-skill-name.md            # Copy of skill instructions — enables /your-skill-name
 ```
 
 1. Write `skills/your-skill-name/SKILL.md`
-2. Copy the instructions into `.claude/commands/your-skill-name.md`
-3. Add test cases to `skills/your-skill-name/evals/evals.json`
-4. Add a row to the Skills table above
+2. Add test cases to `skills/your-skill-name/evals/evals.json`
+3. Add a row to the Skills table above
 
 ---
 
@@ -43,10 +39,6 @@ skills/
 
 ```
 .
-├── .claude/
-│   └── commands/                          # Slash commands (one per skill)
-│       └── gmail-label-reader.md
-│
 ├── skills/
 │   └── gmail-label-reader/
 │       ├── SKILL.md                       # Canonical skill definition
@@ -68,13 +60,6 @@ skills/
 ├── .gitignore
 └── README.md
 ```
-
-### `SKILL.md` vs `.claude/commands/<name>.md`
-
-| File | Role |
-|---|---|
-| `skills/<name>/SKILL.md` | Canonical source. Edit here to change behaviour. |
-| `.claude/commands/<name>.md` | Mirrors the skill so the slash command works. Keep in sync when SKILL.md changes. |
 
 ---
 
