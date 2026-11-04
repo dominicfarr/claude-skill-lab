@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# gh guard for evals: put this folder first on PATH and set REAL_GH. Reads
+# pass through to the real gh; anything that would write to GitHub (create a
+# repo or label, any non-GET API call, ...) is refused and logged.
+set -euo pipefail
+
+log="${GH_GUARD_LOG:-/dev/null}"
+printf '%s\n' "gh $*" >>"$log"
+
+refuse() {
+  printf 'gh-guard: refused in eval: gh %s\n' "$*" >&2
+  printf 'REFUSED gh %s\n' "$*" >>"$log"
+  exit 1
+}
+
+case "${1:-} ${2:-}" in
+  "repo create" | "repo delete" | "repo edit" | "repo fork" | "repo rename" | \
+    "repo archive" | "label create" | "label edit" | "label delete" | \
+    "label clone" | "issue create" | "secret set" | "variable set" | "pr create")
+    refuse "$@"
+    ;;
+esac
+
+if [ "${1:-}" = api ]; then
+  prev=""
+  for arg in "$@"; do
+    case "$prev $arg" in
+      "-X "* | "--method "*)
+        [ "$arg" = GET ] || refuse "$@"
+        ;;
+    esac
+    case "$arg" in
+      -X?* | --method=*)
+        case "$arg" in -XGET | --method=GET) ;; *) refuse "$@" ;; esac
+        ;;
+      -f | -F | --field | --raw-field | --input)
+        # gh api turns into a POST when fields are given without -X GET.
+        printf '%s\n' "$@" | grep -qx -- 'GET' || refuse "$@"
+        ;;
+    esac
+    prev="$arg"
+  done
+fi
+
+exec "${REAL_GH:?REAL_GH must point at the real gh}" "$@"

@@ -1,0 +1,59 @@
+{
+  "skill_name": "new-project",
+  "runner": "evals/run-evals.sh builds each eval's scratch folder under $TMPDIR, runs claude -p in it with the skill (with_prompt, plugin loaded from this repo) and without it (prompt, no plugin), then grades the folder with evals/check.sh <kind>. A gh guard on PATH and --disallowedTools block every GitHub write; check.sh confirms no repo was created.",
+  "prompt": "Turn this folder into a new project using Dom's standards from the dominicfarr/dev-standards GitHub repo, up to and including a first commit that passes the installed hooks. Do not create a GitHub repo or labels.",
+  "with_prompt": "/skill-lab:new-project --local-only",
+  "evals": [
+    {
+      "id": 1,
+      "name": "empty-folder",
+      "kind": "create",
+      "fixture": "An empty folder with a fresh name (np-eval-<random>) that no GitHub repo has.",
+      "expected_output": "The folder is a git repo on main with one commit holding the seven standard files (each with a source header naming a real dev-standards commit), CLAUDE.md with the Read first line above ## Agent skills, docs/agents/*, a README, and pre-commit and commit-msg hooks installed.",
+      "assertions": [
+        {"id": "standard-files", "text": "Every standard file is present, its first line is a source header in the file's comment syntax naming a real dev-standards commit, and the rest of the file matches dev-standards at that commit", "passed": null, "evidence": null},
+        {"id": "claude-md", "text": "CLAUDE.md has the Read first line above ## Agent skills, with GitHub issue tracker, triage labels and single-context domain docs sub-blocks, and docs/agents/ holds issue-tracker.md, triage-labels.md and domain.md", "passed": null, "evidence": null},
+        {"id": "hooks", "text": "pre-commit's hooks are installed for both the pre-commit and commit-msg stages", "passed": null, "evidence": null},
+        {"id": "first-commit", "text": "Branch main has exactly one commit, the working tree is clean, and the commit passes the hooks (pre-commit on its files and commitlint on its message)", "passed": null, "evidence": null},
+        {"id": "no-github-repo", "text": "No GitHub repo dominicfarr/<folder name> exists and the repo has no remote", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "idea-note-folder",
+      "kind": "idea",
+      "fixture": "A fresh folder holding only IDEA.md, a short idea note.",
+      "expected_output": "Same as empty-folder, and IDEA.md is unchanged and part of the first commit.",
+      "assertions": [
+        {"id": "standard-files", "text": "As in eval 1", "passed": null, "evidence": null},
+        {"id": "claude-md", "text": "As in eval 1", "passed": null, "evidence": null},
+        {"id": "hooks", "text": "As in eval 1", "passed": null, "evidence": null},
+        {"id": "first-commit", "text": "As in eval 1", "passed": null, "evidence": null},
+        {"id": "no-github-repo", "text": "As in eval 1", "passed": null, "evidence": null},
+        {"id": "idea-kept", "text": "IDEA.md is byte-for-byte the original note and is in the first commit", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "refuse-git-history",
+      "kind": "refuse-history",
+      "fixture": "A fresh folder that is already a git repo with one commit (notes.md).",
+      "expected_output": "The skill refuses: history, files and hooks are untouched.",
+      "assertions": [
+        {"id": "history-untouched", "text": "HEAD is still the original commit and it is the only commit", "passed": null, "evidence": null},
+        {"id": "nothing-written", "text": "No standard file, CLAUDE.md or docs/agents/ was written, the working tree is clean, and no pre-commit hook was installed", "passed": null, "evidence": null},
+        {"id": "no-github-repo", "text": "No GitHub repo dominicfarr/<folder name> exists", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "refuse-taken-repo-name",
+      "kind": "refuse-name",
+      "fixture": "An empty folder named claude-skill-lab, a repo dominicfarr already owns.",
+      "expected_output": "The skill refuses before git init: the folder stays empty.",
+      "assertions": [
+        {"id": "folder-untouched", "text": "The folder is still empty: no .git, no files", "passed": null, "evidence": null}
+      ]
+    }
+  ]
+}
