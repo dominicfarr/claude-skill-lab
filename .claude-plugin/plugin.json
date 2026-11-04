@@ -1,6 +1,5 @@
 {
   "name": "skill-lab",
-  "version": "0.1.0",
   "description": "Dom's custom Claude Code skills, each with its own evals.",
   "author": {
     "name": "Dominic Farr",
