@@ -182,7 +182,7 @@ Reads **headers only** (sender, subject, date). Message bodies are never fetched
 
 ## new-project
 
-Run `/skill-lab:new-project [repo-name]` in an empty folder, or one holding only an idea note. It refuses a folder with git history (or inside another repo) and a repo name `dominicfarr` already has, then: `git init` on `main`, copies the standard files and base gates from `dominicfarr/dev-standards`, sets up the Matt Pocock skills (GitHub tracker, default triage labels, single-context), writes `CLAUDE.md` with the "Read first" line and a README with *Development setup*, installs the `pre-commit` and `commit-msg` hooks, and makes a first commit that passes them. Creating the GitHub repo and labels is a stub until dominicfarr/dev-standards#10.
+Run `/skill-lab:new-project [repo-name]` in an empty folder, or one holding only an idea note. It refuses a folder with git history (or inside another repo) and a repo name `dominicfarr` already has, then: `git init` on `main`, copies the standard files and base gates from `dominicfarr/dev-standards`, sets up the Matt Pocock skills (GitHub tracker, default triage labels, single-context), writes `CLAUDE.md` with the "Read first" line and a README with *Development setup*, installs the `pre-commit` and `commit-msg` hooks, and makes a first commit that passes them. Only then does it create the public `dominicfarr/<repo-name>` repo, push `main`, create the missing triage labels and watch the first CI run. Pass `--local-only` to stop after the first commit and keep the repo local.
 
 Needs `gh` (logged in), `uv`, pre-commit and the `mattpocock-skills` plugin.
 

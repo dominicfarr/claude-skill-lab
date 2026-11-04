@@ -1,13 +1,13 @@
 ---
 name: new-project
-description: Turn an empty or near-empty folder into a project with Dom's standards, up to a gated first commit.
+description: Turn an empty or near-empty folder into a project with Dom's standards, from a gated first commit to a public GitHub repo with triage labels.
 disable-model-invocation: true
 argument-hint: "[repo-name] [--local-only]"
 ---
 
 # new-project
 
-Turns the current folder (empty, or holding only notes such as an idea file) into a **project**: standard files and **base gates** copied from the **standards repo** with **source headers**, the Matt Pocock skills set up, `CLAUDE.md` pointing at the development practices, hooks installed, and a first commit that passes them. Bold terms are defined in the standards repo's `GLOSSARY.md`.
+Turns the current folder (empty, or holding only notes such as an idea file) into a **project**: standard files and **base gates** copied from the **standards repo** with **source headers**, the Matt Pocock skills set up, `CLAUDE.md` pointing at the development practices, hooks installed, a first commit that passes them, then a public GitHub repo with the triage labels. Bold terms are defined in the standards repo's `GLOSSARY.md`.
 
 ## Constants
 
@@ -148,11 +148,48 @@ The commit goes through the hooks. If a hook fails or changes files, fix the cau
 
 With `--local-only`, stop here and report.
 
-## 9. Create the GitHub repo and labels (not built yet)
+## 9. Create the GitHub repo and labels
 
-**Stub, filled by dominicfarr/dev-standards#10.** This step will create the public repo from the folder, push `main`, and create the triage labels the repo lacks. Evals pass `--local-only` and stop before it.
+Only now, with a gated first commit in place, does anything leave the machine. Evals pass `--local-only` and never reach this step.
 
-Until #10 lands, stop after step 8: leave the repo local, with no remote, and tell Dom this step is still to come.
+1. Create the public repo from the folder and push `main`:
+
+   ```sh
+   gh repo create "$OWNER/<repo-name>" --public --source=. --remote=origin --push
+   ```
+
+   If this fails after the repo was created (for example, the push fails), don't delete the repo and don't retry with force. Stop and report what exists.
+
+2. Create each triage label the repo lacks. `wontfix` usually exists already; leave existing labels as they are.
+
+   ```sh
+   existing=$(gh label list --repo "$OWNER/<repo-name>" --json name --jq '.[].name')
+   for label in \
+     "needs-triage|Maintainer needs to evaluate this issue" \
+     "needs-info|Waiting on reporter for more information" \
+     "ready-for-agent|Fully specified, ready for an AFK agent" \
+     "ready-for-human|Requires human implementation" \
+     "wontfix|Will not be actioned"; do
+     name=${label%%|*}
+     printf '%s\n' "$existing" | grep -qx "$name" ||
+       gh label create "$name" --repo "$OWNER/<repo-name>" --description "${label#*|}"
+   done
+   ```
+
+3. Watch the first CI run on `main`. Filter by workflow name, because Dependabot starts runs of its own:
+
+   ```sh
+   gh run list --repo "$OWNER/<repo-name>" --workflow ci.yml --branch main --limit 1 --json databaseId --jq '.[0].databaseId'
+   gh run watch <id> --repo "$OWNER/<repo-name>" --exit-status
+   ```
+
+   The run can take a few seconds to appear; list again if it's empty. A red run goes in the report with its URL. Don't push fixes as part of this skill.
+
+**Done when:**
+- `gh repo view "$OWNER/<repo-name>" --json visibility,defaultBranchRef,hasIssuesEnabled` shows `PUBLIC`, `main` and `true`
+- `git status -sb` shows `main...origin/main` with nothing ahead
+- `gh label list` shows all five triage labels
+- the first CI run has finished
 
 ## Report
 
@@ -161,4 +198,5 @@ Tell Dom, briefly:
 - the files copied and written, and anything already in the folder that was kept
 - the first commit's SHA and subject, and that it passed the hooks
 - anything noted on the way (pre-commit version mismatch, an existing README)
-- what's next: step 9 (until #10 lands), then grill the project with `grill-with-docs`
+- the repo URL, the labels created, and the first CI run's result and URL (or, with `--local-only`, that the repo stays local)
+- what's next: grill the project with `grill-with-docs`
