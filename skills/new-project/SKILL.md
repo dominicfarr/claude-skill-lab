@@ -106,17 +106,19 @@ Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root. See `docs/ag
 
 ## Development setup
 
-You need:
+**Once per machine.** These install for your user, so you don't need a venv:
 
 - [uv](https://docs.astral.sh/uv/)
 - pre-commit: `uv tool install pre-commit==<pin>` (the version CI uses; bump both together)
 - shellcheck: `brew install shellcheck`, or `uv tool install shellcheck-py`
 
-Then install the hooks for both the `pre-commit` and `commit-msg` stages:
+**Once per clone.** Git doesn't copy hooks when you clone, so run this in each new clone:
 
 ```sh
 pre-commit install --install-hooks
 ```
+
+This installs the hooks for both the `pre-commit` and `commit-msg` stages.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and the commit message format, and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) for the development practices.
 ````
@@ -199,4 +201,5 @@ Tell Dom, briefly:
 - the first commit's SHA and subject, and that it passed the hooks
 - anything noted on the way (pre-commit version mismatch, an existing README)
 - the repo URL, the labels created, and the first CI run's result and URL (or, with `--local-only`, that the repo stays local)
+- that this folder needs no manual setup: its hooks are installed, and a fresh clone needs only `pre-commit install --install-hooks`
 - what's next: grill the project with `grill-with-docs`
