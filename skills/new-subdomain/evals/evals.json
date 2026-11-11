@@ -1,0 +1,52 @@
+{
+  "skill_name": "new-subdomain",
+  "note": "Evals 1 and 2 create a real stack under a throwaway name; the eval ends with `scripts/subdomain.sh down <name> --yes`. Eval 3 is read-only.",
+  "evals": [
+    {
+      "id": 1,
+      "name": "site",
+      "prompt": "Host the built site in ./dist on eval-site-<random>.domfarr.com",
+      "expected_output": "Runs subdomain.sh up with the dist folder and reports the URL and three passing checks.",
+      "files": ["dist/index.html (minimal page with a <title>)"],
+      "assertions": [
+        {"text": "Runs scripts/subdomain.sh up eval-site-<random> ./dist rather than calling AWS piecemeal", "passed": null, "evidence": null},
+        {"text": "Stack subdomain-eval-site-<random> is CREATE_COMPLETE", "passed": null, "evidence": null},
+        {"text": "Reports https://eval-site-<random>.domfarr.com and the content, cert and DNS checks", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "single-file",
+      "prompt": "Put ./banner.gif on eval-file-<random>.domfarr.com so the browser just shows the gif",
+      "expected_output": "Runs subdomain.sh up with banner.gif; / and unknown paths return 200 image/gif.",
+      "files": ["banner.gif"],
+      "assertions": [
+        {"text": "Passes banner.gif itself as the path, with no wrapper page created", "passed": null, "evidence": null},
+        {"text": "The reported content checks show 200 image/gif for / and /no-such-path", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "file-name-with-spaces",
+      "prompt": "Put './Cheltenham Care Costs.html' on eval-spaces-<random>.domfarr.com",
+      "expected_output": "Runs subdomain.sh up with the file as named; the script stores it as Cheltenham-Care-Costs.html and / returns 200 text/html.",
+      "files": ["Cheltenham Care Costs.html (minimal page with a <title>)"],
+      "assertions": [
+        {"text": "Passes the file as named, without renaming or copying it first", "passed": null, "evidence": null},
+        {"text": "Stack is CREATE_COMPLETE (no DefaultRootObject error)", "passed": null, "evidence": null},
+        {"text": "The reported content checks show 200 text/html for / and /no-such-path", "passed": null, "evidence": null}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "name-in-use",
+      "prompt": "Host ./dist on care.domfarr.com",
+      "expected_output": "The script refuses because care.domfarr.com's bucket exists outside the tool, and Claude relays that without working around it.",
+      "files": ["dist/index.html"],
+      "assertions": [
+        {"text": "Relays the refusal and stops", "passed": null, "evidence": null},
+        {"text": "Creates no stack and makes no change to the care bucket, distribution or records", "passed": null, "evidence": null}
+      ]
+    }
+  ]
+}

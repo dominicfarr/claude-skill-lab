@@ -10,6 +10,7 @@ A collection of custom Claude Code skills — each self-contained with its defin
 |---|---|---|
 | [gmail-label-reader](skills/gmail-label-reader/) | `/skill-lab:gmail-label-reader` | List Gmail labels and browse email titles by label |
 | [new-project](skills/new-project/) | `/skill-lab:new-project` | Turn an empty folder into a project with Dom's standards, up to a gated first commit |
+| [new-subdomain](skills/new-subdomain/) | `/skill-lab:new-subdomain` | Host a static site or a single file on a domfarr.com subdomain (CloudFormation: S3, CloudFront, ACM, Route 53) |
 
 ---
 
@@ -76,6 +77,10 @@ New skill directories are picked up by the plugin automatically; no manifest cha
 │   │   ├── SKILL.md
 │   │   ├── scripts/                       # check-safe.sh, copy-standards.sh
 │   │   └── evals/                         # evals.json, run-evals.sh, check.sh, gh-guard/, runs/
+│   ├── new-subdomain/
+│   │   ├── SKILL.md
+│   │   ├── scripts/                       # subdomain.sh, subdomain.yaml (CloudFormation)
+│   │   └── evals/evals.json
 │   └── gmail-label-reader/
 │       ├── SKILL.md                       # Canonical skill definition
 │       └── evals/
@@ -200,3 +205,53 @@ skills/new-project/evals/run-evals.sh <iteration> with_skill 1  # one eval, one 
 ```
 
 Each eval runs `claude -p` in a fresh scratch folder under `$TMPDIR`, with a scoped tool allowlist, and `check.sh` grades the folder from outside (and, for the refuse-history eval, checks the reply quotes `check-safe.sh`'s refusal). No eval can create a GitHub repo: GitHub writes and `git push` are denied, a `gh` guard first on PATH refuses them too, the skill runs with `--local-only`, and `check.sh` confirms `dominicfarr/<folder>` doesn't exist afterwards. Results land in `evals/runs/iteration-<n>/`.
+
+---
+
+## new-subdomain
+
+A plain command; the skill only tells Claude to run it. From a shell:
+
+```sh
+skills/new-subdomain/scripts/subdomain.sh up <name> <path>    # create, or update and re-upload
+skills/new-subdomain/scripts/subdomain.sh down <name>         # delete everything (asks to confirm; --yes skips)
+```
+
+A folder with `index.html` is hosted as a **site** (unknown paths serve `index.html`, so client-side routes work). A single file is hosted on its own (every path serves that file with its own content type, so a GIF or PDF renders directly in the browser).
+
+### Examples
+
+```sh
+# A built site: dist/ has index.html at its top
+skills/new-subdomain/scripts/subdomain.sh up blog ~/Projects/blog/dist
+# -> https://blog.domfarr.com
+
+# One file, served at / and every other path
+skills/new-subdomain/scripts/subdomain.sh up banner ./banner.gif
+
+# A file name with spaces: pass it as it is, quoted
+skills/new-subdomain/scripts/subdomain.sh up care-cost "dist/Cheltenham Care Costs.html"
+# -> stored as Cheltenham-Care-Costs.html, served at https://care-cost.domfarr.com
+
+# Change the site and run up again: the stack is left as it is and the files are re-uploaded
+skills/new-subdomain/scripts/subdomain.sh up blog ~/Projects/blog/dist
+
+# Remove it all: stack, bucket, certificate and DNS records
+skills/new-subdomain/scripts/subdomain.sh down blog --yes
+```
+
+### File names with spaces
+
+A single file is stored under a cleaned-up copy of its name. Each run of characters other than letters, digits, `.`, `_` and `-` becomes one dash, and leading dashes are dropped. A name that ends up empty or starting with `.` is stored as `file`. The URL is the bare subdomain either way, so the stored name never shows. The file you pass is left as it is.
+
+| You pass | Stored as |
+|---|---|
+| `Cheltenham Care Costs.html` | `Cheltenham-Care-Costs.html` |
+| `Q3 report (final).pdf` | `Q3-report-final-.pdf` |
+| `banner.gif` | `banner.gif` |
+
+**Why:** the stored name becomes the CloudFront distribution's `DefaultRootObject`, the object served at `/`. CloudFront accepts only `a-z A-Z 0-9 _ - . * $ / ~ " ' &` there, so a name with a space fails the whole stack deploy with `The parameter DefaultRootObject can only contain these characters`. The script keeps to a stricter set because the same name is also an S3 key and the error page path. Eval 4 (`file-name-with-spaces`) covers this case.
+
+Each subdomain is one CloudFormation stack, `subdomain-<name>`, defined in `subdomain.yaml`: a private S3 bucket, a certificate validated through Route 53, a CloudFront distribution with its own origin access control, and A/AAAA alias records. `up` deploys the stack (a no-op when nothing changed), uploads, invalidates the cache, then checks the content, certificate and public DNS. It refuses names with a bucket or DNS records it didn't create, so the hand-built `care`, `coconut` and `organism` are left alone.
+
+Needs the AWS CLI with the `domfarr` profile (override with `AWS_PROFILE`), plus `python3`, `openssl` and `dig`.
