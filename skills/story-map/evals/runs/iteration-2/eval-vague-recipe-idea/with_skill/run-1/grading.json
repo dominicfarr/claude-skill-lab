@@ -1,0 +1,14 @@
+{
+  "expectations": [
+    {"text": "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given", "passed": true, "evidence": "map.md: 'Assumed: single user, no sharing, web app', with the clarifying question stated in the transcript before the assumption was picked."},
+    {"text": "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact", "passed": true, "evidence": "map.md opens with 'A personal tool for a home cook... Assumed: single user, no sharing, web app', clearly flagged as an assumption."},
+    {"text": "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far", "passed": true, "evidence": "map.md's 4-journey/step backbone is in outputs/map.md; issues.md's 5 Gherkin features reference stories that only exist after that backbone."},
+    {"text": "If no human is available to confirm the assumption and the run proceeds anyway, it goes all the way to a sliced skeleton with Gherkin specs and a GitHub publish, not just a map with no BDD", "passed": true, "evidence": "issues.md has 5 full Gherkin features with concrete scenarios; live-checked issue #103 (parent, labeled 'story-map') with 23 linked sub-issues (#107-177)."}
+  ],
+  "summary": {"passed": 4, "failed": 0, "total": 4, "pass_rate": 1.0},
+  "user_notes_summary": {
+    "uncertainties": ["Skipped map sign-off and slice agreement (non-interactive).", "Assumed error-message wording and shopping-list ingredient-merging rules directly in the Gherkin rather than asking."],
+    "needs_review": ["Leaves out 'Edit or remove', 'Plan meals', and 'Capture what I learned' steps from the skeleton -- a reasonable crude-path call, but worth a human glance."],
+    "workarounds": []
+  }
+}

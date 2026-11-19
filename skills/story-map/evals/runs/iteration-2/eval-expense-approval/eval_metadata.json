@@ -1,0 +1,16 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-expense-approval",
+  "prompt": "I want to build a small internal tool for our team: people submit expense reimbursement requests, their manager approves or rejects them, and finance pays out approved ones. Can you map this out and spec the core flow? You're working in the dominicfarr/story-map-skill-test repo (it's already cloned at the given working directory) — publish there.",
+  "assertions": [
+    "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written",
+    "Stories are organized under specific steps, not a flat ungrouped list",
+    "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope",
+    "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block",
+    "A parent GitHub issue labeled 'story-map' exists in dominicfarr/story-map-skill-test with a body reflecting the journeys/steps/stories shown in chat",
+    "One child GitHub issue per story exists, labeled 'story', each linked to the parent (as a sub-issue or via a 'Part of #N' reference)",
+    "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin",
+    "The map is rendered as nested headings/bullets (not a wide table cramming multiple stories into one cell), and is readable without horizontal scrolling",
+    "The walking skeleton doesn't exclude a story that another sliced story depends on as a precondition"
+  ]
+}

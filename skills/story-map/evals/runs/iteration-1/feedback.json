@@ -1,0 +1,30 @@
+{
+  "reviews": [
+    {
+      "run_id": "eval-expense-approval-with_skill",
+      "feedback": "the stories are good. map is good, skeleton is good",
+      "timestamp": "2026-11-18T23:41:12.943Z"
+    },
+    {
+      "run_id": "eval-expense-approval-without_skill",
+      "feedback": "stories are good, perhaps a little terse. \nmap is strong states assumption, more full slice\nthe stories + AC are ok, some good spec like values, but not standard across ",
+      "timestamp": "2026-11-18T23:41:12.943Z"
+    },
+    {
+      "run_id": "eval-vague-recipe-idea-with_skill",
+      "feedback": "just the map? no specs. skeleton ok. the formatting is hard to read. simple",
+      "timestamp": "2026-11-18T23:41:12.943Z"
+    },
+    {
+      "run_id": "eval-vague-recipe-idea-without_skill",
+      "feedback": "pretty good for a map, no spec, skeleton was good",
+      "timestamp": "2026-11-18T23:41:12.943Z"
+    },
+    {
+      "run_id": "eval-issue-expansion-with_skill",
+      "feedback": "gh issues is good\nthe issue in the eval is weak in comparison\nthe map is ok, poor formatting",
+      "timestamp": "2026-11-18T23:41:12.943Z"
+    }
+  ],
+  "status": "in_progress"
+}

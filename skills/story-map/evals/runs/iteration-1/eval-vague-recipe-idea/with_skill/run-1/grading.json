@@ -1,0 +1,33 @@
+{
+  "expectations": [
+    {
+      "text": "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given",
+      "passed": true,
+      "evidence": "map.md opens with 'ASSUMPTION (flagged, not confirmed): The idea named no user and no outcome. Clarifying question that would have been asked: \"Who is this for...and what outcome should it deliver...\"'."
+    },
+    {
+      "text": "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact",
+      "passed": true,
+      "evidence": "The assumed persona/goal is explicitly under an 'ASSUMPTION' heading, not folded into the map as established fact."
+    },
+    {
+      "text": "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far",
+      "passed": true,
+      "evidence": "map.md shows the 4-journey/step backbone and full story table before any Gherkin; the 4 sliced stories' Gherkin was written afterward and published to the child issues."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "total": 3,
+    "pass_rate": 1.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Assumed persona: home cook feeding a household; goal: stop losing recipes and reduce 'what's for dinner' friction",
+      "Treated its own map as provisionally agreed since no human was available to sign off"
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

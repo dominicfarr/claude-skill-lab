@@ -1,0 +1,39 @@
+{
+  "expectations": [
+    {
+      "text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea",
+      "passed": true,
+      "evidence": "map.md title is 'Let users tag and filter saved articles (source: issue #4)' with journeys 'Tag an article', 'Find articles by tag', 'Maintain tags' \u2014 directly derived from issue #4's content."
+    },
+    {
+      "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories",
+      "passed": true,
+      "evidence": "5 of 16 stories marked with the slice marker in map.md (add tag, remove tag, sync across devices, filter by one tag, clear filter); the rest (e.g. tag suggestions, rename/delete/merge tags) are unmarked."
+    },
+    {
+      "text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs",
+      "passed": true,
+      "evidence": "Live-checked all 16 child issues under #73: exactly 5 contain 'Feature:' Gherkin blocks (issues 74, 78, 81, 82, 85), matching the 5 stories marked sliced."
+    },
+    {
+      "text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test",
+      "passed": true,
+      "evidence": "Live-checked issue #73: labeled 'story-map'; gh api .../issues/73/sub_issues returns all 16 child numbers (74-89), matching issues.md."
+    }
+  ],
+  "summary": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4,
+    "pass_rate": 1.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "This run needed a retry: the first attempt was blocked by an Anthropic API safety classifier (reasoning_extraction) unrelated to the task content; the retry with mildly reworded instructions completed normally."
+    ],
+    "needs_review": [
+      "Tag case-sensitivity and empty-state wording were assumed, flagged in the transcript for confirmation"
+    ],
+    "workarounds": []
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "metadata": {
+    "skill_name": "story-map",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-11-18T18:00:33Z",
+    "evals_run": [
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 132.678,
+        "tokens": 53199,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written",
+          "passed": true,
+          "evidence": "map.md has 3 journeys (Submit an expense, Review an expense, Pay out an expense), each with 2 steps, written before the Gherkin was produced."
+        },
+        {
+          "text": "Stories are organized under specific steps, not a flat ungrouped list",
+          "passed": true,
+          "evidence": "Each of the 6 steps in map.md has its own list of stories (e.g. 'Decide on a request' holds Approve/Reject/Approve with comment/Escalate)."
+        },
+        {
+          "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope",
+          "passed": true,
+          "evidence": "8 of 19 stories marked with the slice marker in map.md; issues.md confirms 8 'yes' / 11 'no' in the In slice column."
+        },
+        {
+          "text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block",
+          "passed": true,
+          "evidence": "Live-checked issue #18 ('Approve a request') body: contains 'Feature: Approve a request' with 3 Scenarios, each with Given/When/Then/And lines, including edge cases (can't approve own request, already-decided request)."
+        },
+        {
+          "text": "A parent GitHub issue labeled 'story-map' exists with a body reflecting the journeys/steps/stories shown in chat",
+          "passed": true,
+          "evidence": "Live-checked issue #5: title 'Story Map: Expense reimbursement tool', label 'story-map'."
+        },
+        {
+          "text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent",
+          "passed": true,
+          "evidence": "Live-checked: gh api .../issues/5/sub_issues returns exactly the 19 child numbers listed in issues.md (6,7,8,9,10,11,12,13,15,18,21,25,28,31,35,41,46,52,57)."
+        },
+        {
+          "text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin",
+          "passed": true,
+          "evidence": "Issue #18 (sliced) has full Gherkin; issue #7 (not sliced, 'Attach receipt image or PDF') body reads 'Not yet in the walking-skeleton slice. Plain story card pending a future pass.' with no fabricated scenarios."
+        }
+      ],
+      "notes": [
+        "Treated the proposed map as provisionally approved instead of getting real chat sign-off, since no human was available in this non-interactive run",
+        "Labeled assumptions: single-level manager approval, finance pays outside the tool, single currency, optional receipts",
+        "Spec choices flagged for a human to confirm: manager can't approve own request, rejection requires a reason, only finance sees the payout queue"
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "failed": 0,
+        "total": 4,
+        "time_seconds": 111.349,
+        "tokens": 46386,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea",
+          "passed": true,
+          "evidence": "map.md title is 'Let users tag and filter saved articles (source: issue #4)' with journeys 'Tag an article', 'Find articles by tag', 'Maintain tags' \u2014 directly derived from issue #4's content."
+        },
+        {
+          "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories",
+          "passed": true,
+          "evidence": "5 of 16 stories marked with the slice marker in map.md (add tag, remove tag, sync across devices, filter by one tag, clear filter); the rest (e.g. tag suggestions, rename/delete/merge tags) are unmarked."
+        },
+        {
+          "text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs",
+          "passed": true,
+          "evidence": "Live-checked all 16 child issues under #73: exactly 5 contain 'Feature:' Gherkin blocks (issues 74, 78, 81, 82, 85), matching the 5 stories marked sliced."
+        },
+        {
+          "text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test",
+          "passed": true,
+          "evidence": "Live-checked issue #73: labeled 'story-map'; gh api .../issues/73/sub_issues returns all 16 child numbers (74-89), matching issues.md."
+        }
+      ],
+      "notes": [
+        "This run needed a retry: the first attempt was blocked by an Anthropic API safety classifier (reasoning_extraction) unrelated to the task content; the retry with mildly reworded instructions completed normally.",
+        "Tag case-sensitivity and empty-state wording were assumed, flagged in the transcript for confirmation"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 103.704,
+        "tokens": 46025,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given",
+          "passed": true,
+          "evidence": "map.md opens with 'ASSUMPTION (flagged, not confirmed): The idea named no user and no outcome. Clarifying question that would have been asked: \"Who is this for...and what outcome should it deliver...\"'."
+        },
+        {
+          "text": "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact",
+          "passed": true,
+          "evidence": "The assumed persona/goal is explicitly under an 'ASSUMPTION' heading, not folded into the map as established fact."
+        },
+        {
+          "text": "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far",
+          "passed": true,
+          "evidence": "map.md shows the 4-journey/step backbone and full story table before any Gherkin; the 4 sliced stories' Gherkin was written afterward and published to the child issues."
+        }
+      ],
+      "notes": [
+        "Assumed persona: home cook feeding a household; goal: stop losing recipes and reduce 'what's for dinner' friction",
+        "Treated its own map as provisionally agreed since no human was available to sign off"
+      ]
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.2857,
+        "passed": 2,
+        "failed": 5,
+        "total": 7,
+        "time_seconds": 84.126,
+        "tokens": 43944,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written",
+          "passed": false,
+          "evidence": "map.md has only one level of grouping above stories: 5 'activities' (Create request, Submit for approval, Review, Pay, Track) with stories listed directly under each \u2014 no intermediate steps level."
+        },
+        {
+          "text": "Stories are organized under specific steps, not a flat ungrouped list",
+          "passed": true,
+          "evidence": "Stories are grouped under the 5 activities in a table, not one flat list, even though there's no deeper steps layer."
+        },
+        {
+          "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope",
+          "passed": true,
+          "evidence": "map.md 'Release slices' section marks 9 of 12 stories as the v1 walking skeleton, with v1.1 and Later as separate buckets."
+        },
+        {
+          "text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block",
+          "passed": false,
+          "evidence": "Acceptance criteria are single-sentence Given/when/then prose (e.g. issue #32 body: 'Given I am signed in, when I enter amount...'); no 'Feature:'/'Scenario:' Gherkin syntax anywhere in the outputs."
+        },
+        {
+          "text": "A parent GitHub issue labeled 'story-map' exists with a body reflecting the journeys/steps/stories shown in chat",
+          "passed": false,
+          "evidence": "Live-checked issue #61: title 'Expense reimbursement tool: core flow (map)', labeled 'enhancement' (the repo's default label), not 'story-map'."
+        },
+        {
+          "text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent",
+          "passed": false,
+          "evidence": "12 child issues were created and linked via a task list in the parent body (not the GitHub sub-issue API), but all are labeled 'enhancement', not 'story'."
+        },
+        {
+          "text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin",
+          "passed": false,
+          "evidence": "No Gherkin was produced for any story; child issue bodies hold prose acceptance criteria instead (live-checked issue #32)."
+        }
+      ],
+      "notes": [
+        "Picked its own defaults for SSO/manager hierarchy, payout handled outside the tool, single currency, mandatory receipts",
+        "Linked children to the parent via a markdown task list instead of the GitHub sub-issue API"
+      ]
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 2,
+        "failed": 2,
+        "total": 4,
+        "time_seconds": 37.198,
+        "tokens": 40868,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea",
+          "passed": true,
+          "evidence": "map.md correctly reflects issue #4's content: 'Tag an article', 'Filter by tag', 'Manage tags', 'Across devices', with 'Source: #4' cited."
+        },
+        {
+          "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories",
+          "passed": true,
+          "evidence": "map.md marks 5 of ~16 stories with a slice marker (add/remove/see tags, filter by one tag, clear filter), leaving others (rename/delete/merge tags, autocomplete) unmarked."
+        },
+        {
+          "text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs",
+          "passed": false,
+          "evidence": "Per the run's own report, no per-story issues or Gherkin were created at all; only the single parent map issue was published."
+        },
+        {
+          "text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test",
+          "passed": false,
+          "evidence": "Live-checked issue #14: labeled 'story-map' and titled 'Story Map: Tag and filter saved articles', but no child issues exist at all \u2014 the run explicitly reported creating only this one issue."
+        }
+      ],
+      "notes": [
+        "Inferred GitHub issue conventions (story-map label, title format) from other issues already present in the shared test repo rather than deciding independently"
+      ]
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 3,
+        "failed": 0,
+        "total": 3,
+        "time_seconds": 31.21,
+        "tokens": 39366,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given",
+          "passed": true,
+          "evidence": "map.md has an 'Assumptions (not confirmed, the request gave no persona or goal)' section naming the open questions directly."
+        },
+        {
+          "text": "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact",
+          "passed": true,
+          "evidence": "Persona/goal/platform are listed under the 'Assumptions' heading, separate from the backbone/stories."
+        },
+        {
+          "text": "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far",
+          "passed": true,
+          "evidence": "No Gherkin was written at all (confirmed: no 'Feature:' text anywhere in this run's outputs), so there is no out-of-order BDD to fail on; the backbone and release slices are as far as it went."
+        }
+      ],
+      "notes": [
+        "Assumed persona: home cook feeding a household; single-user web app, no social features initially"
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 115.9103,
+        "stddev": 15.0159,
+        "min": 103.704,
+        "max": 132.678
+      },
+      "tokens": {
+        "mean": 48536.6667,
+        "stddev": 4041.7316,
+        "min": 46025,
+        "max": 53199
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.5952,
+        "stddev": 0.3665,
+        "min": 0.2857,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 50.8447,
+        "stddev": 28.9776,
+        "min": 31.21,
+        "max": 84.126
+      },
+      "tokens": {
+        "mean": 41392.6667,
+        "stddev": 2333.6618,
+        "min": 39366,
+        "max": 43944
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.40",
+      "time_seconds": "+65.1",
+      "tokens": "+7144"
+    }
+  },
+  "notes": [
+    "with_skill hits 100% pass rate on all 3 evals; without_skill failures concentrate almost entirely in the mechanics the skill exists to enforce (strict Gherkin syntax, GitHub sub-issue structure, story-map/story labels) rather than in map/story reasoning quality \u2014 the baseline wrote comparably good backbones and even flagged idea ambiguity on its own in eval 2.",
+    "Eval 2 (vague-recipe-idea) is non-discriminating as currently scored: both configs hit 3/3 because its 3 assertions only check whether the ambiguity was flagged, which a generic competent agent handled just as well. The real gap observed between runs \u2014 with_skill went all the way through slicing, Gherkin, and publish; without_skill stopped at the map \u2014 isn\u2019t captured by any assertion on this eval. Recommend adding a slice/Gherkin assertion to eval 2 before the next iteration.",
+    "Cross-run contamination: all 6 subagents ran concurrently against one shared test repo (dominicfarr/story-map-skill-test). Eval 3\u2019s without_skill baseline explicitly said it inferred the story-map label and issue title convention from other issues already created by concurrent with_skill runs in that same repo, which partially inflates its apparent similarity to the skill\u2019s GitHub structure on that one dimension. The deeper checks (Gherkin, sub-issues) still correctly failed for it, so this didn\u2019t flip any verdict, but future iterations should give each run its own repo or clone to keep the comparison clean.",
+    "with_skill runs take roughly 2.3x without_skill\u2019s average wall time (116s vs 51s) and about 17% more tokens \u2014 expected, since the skill always pushes through to GitHub-structured BDD specs. The without_skill average is pulled down by eval 2\u2019s baseline (31s), which only got there by stopping short of BDD and publish, so it isn\u2019t an apples-to-apples speed comparison.",
+    "without_skill pass rate has high variance (0.29 to 1.0, stddev 0.37) across evals, swinging entirely on how much GitHub/BDD structure a given task happened to pull out of it rather than on reasoning quality, which was consistently solid across all three without_skill runs."
+  ]
+}

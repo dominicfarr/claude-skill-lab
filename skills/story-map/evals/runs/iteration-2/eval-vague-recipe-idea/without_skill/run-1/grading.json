@@ -1,0 +1,18 @@
+{
+  "expectations": [
+    {"text": "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given", "passed": true, "evidence": "map.md has a 'Clarifying questions (unanswered, so assumptions made)' table naming persona, platform, data source, accounts, budget."},
+    {"text": "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact", "passed": true, "evidence": "Each assumption sits in the 'Assumption used' column of that table, separate from the backbone/map content."},
+    {"text": "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far", "passed": true, "evidence": "map.md's 6-activity backbone precedes issues.md's release-1 stories; no strict Gherkin was written at all."},
+    {"text": "If no human is available to confirm the assumption and the run proceeds anyway, it goes all the way to a sliced skeleton with Gherkin specs and a GitHub publish, not just a map with no BDD", "passed": false, "evidence": "map.md explicitly stops short: 'No GitHub issues published: the idea is still vague and the assumptions above are unconfirmed.' issues.md has prose acceptance criteria, not Gherkin, and nothing was published."}
+  ],
+  "summary": {"passed": 3, "failed": 1, "total": 4, "pass_rate": 0.75},
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "This is the assertion iteration-1 was missing, and it now does exactly what it's meant to: with_skill goes all the way through slice -> Gherkin -> publish on the same ambiguous prompt, while a thoughtful baseline reasonably chooses to stop at a well-reasoned map and flag that it's holding off given the unconfirmed assumption. That's the real with_skill/without_skill gap on this eval, and now the assertions catch it."
+  },
+  "user_notes_summary": {
+    "uncertainties": ["Assumed persona: home cook with a personal collection, no sharing."],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

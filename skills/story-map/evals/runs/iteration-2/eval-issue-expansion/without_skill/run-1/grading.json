@@ -1,0 +1,19 @@
+{
+  "expectations": [
+    {"text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea", "passed": true, "evidence": "map.md directly maps issue #4's tag/filter scope: 'Tag an article', 'See tags', 'Filter the list', 'Manage tags', 'Keep in sync' columns."},
+    {"text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories", "passed": true, "evidence": "map.md marks R1 stories (6) as the walking skeleton, explicitly separate from R2 (6) and R3 (3)."},
+    {"text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs", "passed": false, "evidence": "issues.md (per self-report) describes 'Given/When/Then-style acceptance criteria', not strict Gherkin -- no 'Feature:'/'Scenario:' keywords."},
+    {"text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test", "passed": false, "evidence": "Issue #147 is labeled 'story-map' (reused the label that already existed in the repo), but gh api .../issues/147/sub_issues returns empty -- no sub-issue link. The self-report says each child ends 'Part of #4', i.e. linked to the original source issue, not to the new parent #147 at all."},
+    {"text": "The map is rendered as nested headings/bullets, not a wide table cramming multiple stories into one cell", "passed": true, "evidence": "map.md is a 5-column table but each cell holds at most one story (not multiple items joined by line breaks), so it doesn't hit the specific cramming failure mode -- though it's still a table, less readable than the with_skill heading format."}
+  ],
+  "summary": {"passed": 3, "failed": 2, "total": 5, "pass_rate": 0.6},
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "Reused the pre-existing 'story-map' label from the shared test repo rather than deciding independently -- a milder form of the cross-run contamination seen in iteration-1 (reading labels via `gh label list` rather than browsing issue content). It also made its own structural mistake independent of the skill: it created a new parent issue #147 but linked every child story back to the *original* source issue #4 instead of to #147, so the new parent has no children at all. Worth isolating baseline runs into a separate repo/clone in a future iteration to remove this kind of shared-state noise entirely."
+  },
+  "user_notes_summary": {
+    "uncertainties": ["Reused existing 'story-map'/'story' labels rather than inventing new ones.", "Linked child issues to source issue #4 rather than to its own new parent issue #147."],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

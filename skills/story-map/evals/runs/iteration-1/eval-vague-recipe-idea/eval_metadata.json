@@ -1,0 +1,10 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-vague-recipe-idea",
+  "prompt": "turn this into a story map: a recipe management tool",
+  "assertions": [
+    "The output explicitly names the missing information (who the idea is for, and/or what outcome it serves) rather than silently proceeding as if it were given",
+    "Any assumption made to fill that gap is clearly labeled as an assumption, not stated as given fact",
+    "A backbone of journeys/steps is established before any Gherkin/BDD content is written, if the task proceeds that far"
+  ]
+}

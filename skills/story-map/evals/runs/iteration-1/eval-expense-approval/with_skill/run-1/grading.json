@@ -1,0 +1,55 @@
+{
+  "expectations": [
+    {
+      "text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written",
+      "passed": true,
+      "evidence": "map.md has 3 journeys (Submit an expense, Review an expense, Pay out an expense), each with 2 steps, written before the Gherkin was produced."
+    },
+    {
+      "text": "Stories are organized under specific steps, not a flat ungrouped list",
+      "passed": true,
+      "evidence": "Each of the 6 steps in map.md has its own list of stories (e.g. 'Decide on a request' holds Approve/Reject/Approve with comment/Escalate)."
+    },
+    {
+      "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope",
+      "passed": true,
+      "evidence": "8 of 19 stories marked with the slice marker in map.md; issues.md confirms 8 'yes' / 11 'no' in the In slice column."
+    },
+    {
+      "text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block",
+      "passed": true,
+      "evidence": "Live-checked issue #18 ('Approve a request') body: contains 'Feature: Approve a request' with 3 Scenarios, each with Given/When/Then/And lines, including edge cases (can't approve own request, already-decided request)."
+    },
+    {
+      "text": "A parent GitHub issue labeled 'story-map' exists with a body reflecting the journeys/steps/stories shown in chat",
+      "passed": true,
+      "evidence": "Live-checked issue #5: title 'Story Map: Expense reimbursement tool', label 'story-map'."
+    },
+    {
+      "text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent",
+      "passed": true,
+      "evidence": "Live-checked: gh api .../issues/5/sub_issues returns exactly the 19 child numbers listed in issues.md (6,7,8,9,10,11,12,13,15,18,21,25,28,31,35,41,46,52,57)."
+    },
+    {
+      "text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin",
+      "passed": true,
+      "evidence": "Issue #18 (sliced) has full Gherkin; issue #7 (not sliced, 'Attach receipt image or PDF') body reads 'Not yet in the walking-skeleton slice. Plain story card pending a future pass.' with no fabricated scenarios."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Treated the proposed map as provisionally approved instead of getting real chat sign-off, since no human was available in this non-interactive run",
+      "Labeled assumptions: single-level manager approval, finance pays outside the tool, single currency, optional receipts"
+    ],
+    "needs_review": [
+      "Spec choices flagged for a human to confirm: manager can't approve own request, rejection requires a reason, only finance sees the payout queue"
+    ],
+    "workarounds": []
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "expectations": [
+    {"text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea", "passed": true, "evidence": "map.md title and journeys ('Tag articles', 'Find articles by tag', 'Keep tags consistent across devices', 'Manage tags') directly reflect issue #4's tag/filter scope, cites 'Source: issue #4'."},
+    {"text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories", "passed": true, "evidence": "6 of 15 stories marked 🦴 in map.md; e.g. 'Rename a tag' and 'Add several tags at once' are unmarked."},
+    {"text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs", "passed": true, "evidence": "issues.md (per self-report) has Gherkin for all 6 sliced stories; parent/children structure matches."},
+    {"text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test", "passed": true, "evidence": "Live-checked issue #112: labeled 'story-map'; gh api .../issues/112/sub_issues returns all 15 child numbers (115-165)."},
+    {"text": "The map is rendered as nested headings/bullets, not a wide table cramming multiple stories into one cell", "passed": true, "evidence": "map.md uses ## journey headings with bold step sub-headings and bullet lists, no table."}
+  ],
+  "summary": {"passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0},
+  "eval_feedback": {
+    "suggestions": [
+      {"assertion": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories", "reason": "This passes as written, but the run itself flagged (unprompted) that it left the entire 'Manage tags' journey (rename/delete/merge) out of the skeleton -- zero representation for one of four journeys. The skill's own definition says the skeleton should be 'the thinnest path through every journey', but no assertion actually checks per-journey coverage, only that the slice is a strict subset. Worth adding a 'every journey has at least one sliced story' assertion next iteration -- this run's self-flagging is good (better than iteration-1, where this kind of gap went unflagged entirely), but the eval should catch it mechanically too."}
+    ],
+    "overall": "Full pass on the written assertions, but exposes a real gap in the assertions themselves: journey-coverage isn't checked, only subset-ness. The model is now honest about this gap in its own transcript, which is a meaningful improvement in transparency even though the underlying skeleton choice is debatable."
+  },
+  "user_notes_summary": {
+    "uncertainties": ["Left 'Manage tags' (rename/delete/merge) entirely out of the slice -- flagged as a deviation from 'thin path through every journey' in the transcript."],
+    "needs_review": ["Whether 'Manage tags' having zero skeleton coverage is acceptable, or whether at least one of rename/delete/merge should have been pulled into the slice."],
+    "workarounds": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "expectations": [
+    {
+      "text": "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea",
+      "passed": true,
+      "evidence": "map.md correctly reflects issue #4's content: 'Tag an article', 'Filter by tag', 'Manage tags', 'Across devices', with 'Source: #4' cited."
+    },
+    {
+      "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories",
+      "passed": true,
+      "evidence": "map.md marks 5 of ~16 stories with a slice marker (add/remove/see tags, filter by one tag, clear filter), leaving others (rename/delete/merge tags, autocomplete) unmarked."
+    },
+    {
+      "text": "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs",
+      "passed": false,
+      "evidence": "Per the run's own report, no per-story issues or Gherkin were created at all; only the single parent map issue was published."
+    },
+    {
+      "text": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test",
+      "passed": false,
+      "evidence": "Live-checked issue #14: labeled 'story-map' and titled 'Story Map: Tag and filter saved articles', but no child issues exist at all \u2014 the run explicitly reported creating only this one issue."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 2,
+    "total": 4,
+    "pass_rate": 0.5
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test",
+        "reason": "This baseline run copied the 'story-map' label and the 'Story Map: ...' title convention by reading other issues already created in the shared test repo by concurrent with_skill runs (it said so directly: 'I inferred repo convention from earlier issues #5/#6'). That's cross-run contamination from sharing one live repo across concurrent eval runs, not organic baseline behavior \u2014 the label match on its own overstates how skill-like this baseline really was. The deeper assertions (Gherkin, child issues) still correctly failed, so the contamination didn't flip the overall verdict here, but future iterations should isolate concurrent runs (separate repos/clones per run) to keep the comparison clean."
+      }
+    ],
+    "overall": "Passed on map fidelity and slicing, failed on the BDD and GitHub sub-issue structure \u2014 but note the label-match caveat above."
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Inferred GitHub issue conventions (story-map label, title format) from other issues already present in the shared test repo rather than deciding independently"
+    ],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "expectations": [
+    {
+      "text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written",
+      "passed": false,
+      "evidence": "map.md has only one level of grouping above stories: 5 'activities' (Create request, Submit for approval, Review, Pay, Track) with stories listed directly under each \u2014 no intermediate steps level."
+    },
+    {
+      "text": "Stories are organized under specific steps, not a flat ungrouped list",
+      "passed": true,
+      "evidence": "Stories are grouped under the 5 activities in a table, not one flat list, even though there's no deeper steps layer."
+    },
+    {
+      "text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope",
+      "passed": true,
+      "evidence": "map.md 'Release slices' section marks 9 of 12 stories as the v1 walking skeleton, with v1.1 and Later as separate buckets."
+    },
+    {
+      "text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block",
+      "passed": false,
+      "evidence": "Acceptance criteria are single-sentence Given/when/then prose (e.g. issue #32 body: 'Given I am signed in, when I enter amount...'); no 'Feature:'/'Scenario:' Gherkin syntax anywhere in the outputs."
+    },
+    {
+      "text": "A parent GitHub issue labeled 'story-map' exists with a body reflecting the journeys/steps/stories shown in chat",
+      "passed": false,
+      "evidence": "Live-checked issue #61: title 'Expense reimbursement tool: core flow (map)', labeled 'enhancement' (the repo's default label), not 'story-map'."
+    },
+    {
+      "text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent",
+      "passed": false,
+      "evidence": "12 child issues were created and linked via a task list in the parent body (not the GitHub sub-issue API), but all are labeled 'enhancement', not 'story'."
+    },
+    {
+      "text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin",
+      "passed": false,
+      "evidence": "No Gherkin was produced for any story; child issue bodies hold prose acceptance criteria instead (live-checked issue #32)."
+    }
+  ],
+  "summary": {
+    "passed": 2,
+    "failed": 5,
+    "total": 7,
+    "pass_rate": 0.2857
+  },
+  "user_notes_summary": {
+    "uncertainties": [
+      "Picked its own defaults for SSO/manager hierarchy, payout handled outside the tool, single currency, mandatory receipts"
+    ],
+    "needs_review": [],
+    "workarounds": [
+      "Linked children to the parent via a markdown task list instead of the GitHub sub-issue API"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "expectations": [
+    {"text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written", "passed": false, "evidence": "map.md only has one level: backbone activities (Access/Submit/Approve/Pay) directly listing stories -- no intermediate 'step' grouping."},
+    {"text": "Stories are organized under specific steps, not a flat ungrouped list", "passed": false, "evidence": "Same reason: stories sit directly under the backbone activity, not under a step."},
+    {"text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope", "passed": true, "evidence": "map.md marks 8 stories as 'R1 (walking skeleton)', explicitly separate from R2/R3 stories."},
+    {"text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block", "passed": false, "evidence": "Live-checked issue #90: body is 'As an employee I want to...' plus Given/When/Then-style acceptance criteria prose, no 'Feature:'/'Scenario:' keywords anywhere."},
+    {"text": "A parent GitHub issue labeled 'story-map' exists in dominicfarr/story-map-skill-test with a body reflecting the journeys/steps/stories shown in chat", "passed": false, "evidence": "Live-checked issue #124 (the overview issue): labels = [] (none). Self-report confirms: 'I didn't create labels.'"},
+    {"text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent (as a sub-issue or via a 'Part of #N' reference)", "passed": false, "evidence": "gh api .../issues/124/sub_issues returns empty. No label on children either (no labels were created at all)."},
+    {"text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin", "passed": false, "evidence": "No story has strict Gherkin at all (see above), so this can't pass -- consistent with the Feature/Scenario assertion failing."},
+    {"text": "The map is rendered as nested headings/bullets (not a wide table cramming multiple stories into one cell), and is readable without horizontal scrolling", "passed": true, "evidence": "map.md is a short inline backbone line plus flat bullet lists per release, not a table at all."},
+    {"text": "The walking skeleton doesn't exclude a story that another sliced story depends on as a precondition", "passed": true, "evidence": "R1 assumes 'receipt required over 25' (a threshold, not a hard requirement for every submission), so the R1 skeleton still works end-to-end for typical small requests."}
+  ],
+  "summary": {"passed": 3, "failed": 6, "total": 9, "pass_rate": 0.333},
+  "eval_feedback": {
+    "suggestions": [],
+    "overall": "A generically competent baseline still produces a readable backbone and a sensible-looking R1/R2/R3 slice, but it has no step layer, no strict Gherkin, and never created GitHub labels or sub-issue links at all -- a much clearer gap from with_skill than iteration-1's baseline on this same eval, which did create labels/structure. This looks like normal baseline variance (different random choices each run), not a change in with_skill's behavior."
+  },
+  "user_notes_summary": {
+    "uncertainties": ["Didn't browse other repo issues for conventions, per instructions -- decided its own numbering/labeling independently, and chose not to use labels at all."],
+    "needs_review": [],
+    "workarounds": []
+  }
+}

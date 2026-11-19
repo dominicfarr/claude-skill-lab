@@ -1,0 +1,11 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-issue-expansion",
+  "prompt": "--issue 4, map this out. You're working in the dominicfarr/story-map-skill-test repo (it's already cloned at the given working directory) — the issue and the publish target are both there.",
+  "assertions": [
+    "Issue #4 is fetched (e.g. via gh issue view) and its actual content (tagging and filtering saved articles) is reflected in the resulting map, not a generic or unrelated idea",
+    "A walking-skeleton slice is explicitly marked and is a strict subset of all stories",
+    "Sliced stories have Gherkin Feature/Scenario/Given/When/Then specs",
+    "A parent GitHub issue labeled 'story-map' and linked child 'story' issues are created in dominicfarr/story-map-skill-test"
+  ]
+}

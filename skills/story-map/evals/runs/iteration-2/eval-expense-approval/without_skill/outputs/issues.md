@@ -1,0 +1,2 @@
+Spec content lives in GitHub issues (12 stories #90-#110 plus overview #124), each titled "[Expense Reimbursement] ...", with As-a/I-want/so-that, release, and Given/When/Then-style acceptance criteria. No labels were created (to avoid modifying repo config); the title prefix is the grouping.
+Note: gaps in numbering (and issues #5, #61, #104 with similar titles) come from other concurrent activity in the repo, not this run. Mine: #90-97, 99, 100, 102, 106, 110, 124.

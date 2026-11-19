@@ -1,0 +1,19 @@
+{
+  "expectations": [
+    {"text": "Shows a story map with at least 2 distinct journeys, each broken into steps, before any BDD content is written", "passed": true, "evidence": "map.md: 3 journeys (Submit, Review, Pay out), each with 2 steps, rendered as headings before any Gherkin appears."},
+    {"text": "Stories are organized under specific steps, not a flat ungrouped list", "passed": true, "evidence": "Each step heading (e.g. 'Create the request') has its own bullet list of stories."},
+    {"text": "A walking-skeleton slice is explicitly marked and is a strict subset of all stories, not all stories marked in-scope", "passed": true, "evidence": "6 of 17 stories marked 🦴; e.g. 'Attach a receipt image' and 'Withdraw a pending request' are unmarked."},
+    {"text": "Every slice-marked story has a Gherkin Feature/Scenario/Given/When/Then block", "passed": true, "evidence": "Live-checked issue #108 (sliced): body has 'Feature: Submit a request...' with 3 Given/When/Then scenarios."},
+    {"text": "A parent GitHub issue labeled 'story-map' exists in dominicfarr/story-map-skill-test with a body reflecting the journeys/steps/stories shown in chat", "passed": true, "evidence": "Live-checked issue #104: labeled 'story-map', title 'Story Map: Expense reimbursement tool: submit, approve, pay'."},
+    {"text": "One child GitHub issue per story exists, labeled 'story', each linked to the parent (as a sub-issue or via a 'Part of #N' reference)", "passed": true, "evidence": "gh api .../issues/104/sub_issues returns all 17 child numbers (108-170), each labeled 'story'."},
+    {"text": "Child issues for sliced stories contain the Gherkin spec in their body; non-sliced stories don't have fabricated Gherkin", "passed": true, "evidence": "Live-checked #108 (sliced, has Gherkin) and #116 'Attach a receipt image' (not sliced, body is plain-card note, no Gherkin)."},
+    {"text": "The map is rendered as nested headings/bullets (not a wide table cramming multiple stories into one cell), and is readable without horizontal scrolling", "passed": true, "evidence": "map.md uses ## journey headings, bold step sub-headings, bullet lists for stories -- no table at all."},
+    {"text": "The walking skeleton doesn't exclude a story that another sliced story depends on as a precondition", "passed": true, "evidence": "Receipts are explicitly assumed optional in v1 ('receipts optional in v1' in map.md), so excluding 'Attach a receipt' from the slice doesn't break 'Submit a request'."}
+  ],
+  "summary": {"passed": 9, "failed": 0, "total": 9, "pass_rate": 1.0},
+  "user_notes_summary": {
+    "uncertainties": ["Skipped the map sign-off and slice agreement since no human was available; proceeded with its own draft.", "Did not show each Gherkin Feature in chat one at a time as it wrote them, despite the updated skill step 5 instruction -- the content did end up in issues.md, just not narrated live."],
+    "needs_review": [],
+    "workarounds": []
+  }
+}
